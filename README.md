@@ -10,7 +10,8 @@ Cara menjalankan program :
 1. Download source file
 2. Di Terminal Command Prompt, pergi ke lokasi folder
    `cd ./rush-hour-solver`
-3. Jalankan `.\mvnw clean install` atau `.\mvnw clean install` 
+3. Jalankan `.\mvnw clean install` atau `.\mvnw clean install`
+4. Jalankan `java -jar target/your-app-name.jar`
 
 
 
