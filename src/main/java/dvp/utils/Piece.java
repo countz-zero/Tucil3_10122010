@@ -1,16 +1,18 @@
 package dvp.utils;
 
 public class Piece {
-    private final char piece_name;
-    private int height;
-    private int width;
-    private int size;
-    private boolean isVertical;
-    private final boolean isPCar;
+    private final String piece_name;
+    private final int height;
+    private final int width;
+    private final int size;
+    private final boolean isVertical;
+    private int row;
+    private int col;
 
-    public Piece(char piece_name, int height, int width) {
+    public Piece(String piece_name, int height, int width, int row, int col) {
         if(!isValidSize(height, width)) {
-            throw new IllegalArgumentException("Ada blok yang ukurannya tidak valid");
+            String errMessage = String.format("Blok %s yang ukurannya tidak valid", piece_name);
+            throw new IllegalArgumentException(errMessage);
         }
 
         final String validName_String = "ABCDEFGHIJLMNOPQRSTUVWXYZ";
@@ -18,17 +20,13 @@ public class Piece {
             throw new IllegalArgumentException("K tidak boleh digunakan untuk blok");
         }
 
-        // Kalau ada dilarang
-        // if(piece_name == 'P' && ((height == 3) || (width == 3))) {
-        //     throw new IllegalArgumentException("Ukuran mobil P tidak valid")
-        // }
-
         this.piece_name = piece_name;
         this.height = height;
         this.width = width;
         this.size = (width == 1) ? height : width;
         this.isVertical = (width == 1) ? true : false;
-        this.isPCar = (piece_name == 'P') ? true : false;
+        this.row = row;
+        this.col = col;
     }
 
     private boolean isValidSize(int height, int width) {
@@ -50,7 +48,7 @@ public class Piece {
         return size;
     }
 
-    public char getPieceName() {
+    public String getPieceName() {
         return piece_name;
     }
 
@@ -58,7 +56,19 @@ public class Piece {
         return isVertical;
     }
 
-    public boolean getisPCar() {
-        return isPCar;
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setRow(int newRow) {
+        row  = newRow;
+    }
+
+    public void setCol(int newCol) {
+        row  = newCol;
     }
 }
