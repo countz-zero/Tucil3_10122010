@@ -7,10 +7,10 @@ public class Board {
     private final int row_size;
     private final int column_size;
     private Piece[][] grid;
-    private int[] exit_location = new int[2]; // Koordinat 0 = posisinya, koordinat 1 == angka barisannya. 1 == Atas, mutar lawan jarum jam
+    private int[] exit_location; // Koordinat 0 = posisinya, koordinat 1 == angka barisannya. 1 == Atas, mutar lawan jarum jam
     private Piece main_car;
 
-    public Board(int row_size, int column_size, ArrayList<Piece> gamePieces) {
+    public Board(int row_size, int column_size, ArrayList<Piece> gamePieces, int[] exit_location) {
         if (row_size <= 0 || column_size <= 0) {
             throw new IllegalArgumentException("Ukuran papan tidak mungkin negatif atau nol");
         }
@@ -22,9 +22,11 @@ public class Board {
 
         findAndGetPCar(gamePieces);
 
-        if(!isExitAligned(gamePieces)) {
+        if(!isExitAligned(gamePieces, exit_location)) {
             throw new IllegalArgumentException("Puzzle tidak mungkin diselesaikan karena mobil P tidak bisa keluar");
         }
+
+        this.exit_location = exit_location;
 
         if(!isCarInFrontP(gamePieces)) {
             throw new IllegalArgumentException("Ada mobil yang di depan mobil merah (P)");
@@ -39,6 +41,8 @@ public class Board {
             for(int j = 0; j < column_size; j++) {
                 System.out.print(grid[i][j] == null ? "." : grid[i][j].getPieceName());
             }
+
+            System.err.print("\n");
         }
     }
 
@@ -63,15 +67,14 @@ public class Board {
         for(Piece piece : gamePieces) {
             if(piece.getPieceName().equals("P")) {
                 main_car = piece;
-                break;
+                return;
             }
         }
 
-        throw new IllegalStateException("Tidak ada mobil berlabel P");
+        throw new IllegalArgumentException("Tidak ada mobil berlabel P");
     }
 
     //! Ada perubahan nanti tergantung jawaban
-    //TODO Logikanya perlu diperbaiki kalo blok di belakang mobil
     public boolean isCarInFrontP(ArrayList<Piece> gamePieces) {
         for (Piece piece : gamePieces) {
             if(piece.getPieceName().equals("P")) {
@@ -79,16 +82,24 @@ public class Board {
             }
 
             if(main_car.getisVertical() && piece.getisVertical() && (piece.getCol() == main_car.getCol())) {
-                return false;
+                if(exit_location[0] == 1 && piece.getRow() < main_car.getRow()) {
+                    return false;
+                } else if (exit_location[0] == 3 && piece.getRow() > main_car.getRow()) {
+                    return false;
+                }
             } else if(!main_car.getisVertical() && !piece.getisVertical() && (piece.getRow() == main_car.getRow())) {
-                return false;
+                if(exit_location[0] == 2 && piece.getCol() < main_car.getCol()) {
+                    return false;
+                } else if (exit_location[0] == 4 && piece.getCol() > main_car.getCol()) {
+                    return false;
+                }
             }
         }
 
         return true;
     }
 
-    public boolean isExitAligned(ArrayList<Piece> gamePieces) {
+    public boolean isExitAligned(ArrayList<Piece> gamePieces, int[] exit_location) {
         if ((exit_location[0] == 1 || exit_location[0] == 3) && main_car.getCol() == exit_location[1]) {
             return true;
         } else if ((exit_location[0] == 2 || exit_location[0] == 4) && main_car.getRow() == exit_location[1]) {
