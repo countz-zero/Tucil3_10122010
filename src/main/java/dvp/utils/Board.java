@@ -36,12 +36,34 @@ public class Board {
 
     //TODO Need changes for exit K
     public void displayBoard() {
+        if(exit_location[0] == 1) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            System.out.println(gate);
+        }
+
         for (int i = 0; i < row_size; i++) {
             for(int j = 0; j < column_size; j++) {
+                if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
+                    System.out.print("K");
+                } else if (j == 0 && exit_location[0] == 2) {
+                    System.out.print(" ");
+                }
+
                 System.out.print(grid[i][j] == null ? "." : grid[i][j].getPieceName());
+
+                if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
+                    System.out.print("K");
+                } else if (j == column_size - 1 && exit_location[0] == 4) {
+                   System.out.print(" ");
+                }
             }
 
             System.err.print("\n");
+        }
+
+        if(exit_location[0] == 3) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            System.out.print(gate);
         }
     }
 
@@ -103,9 +125,9 @@ public class Board {
     }
 
     public boolean isExitAligned(ArrayList<Piece> gamePieces, int[] exit_location) {
-        if ((exit_location[0] == 1 || exit_location[0] == 3) && main_car.getCol() == exit_location[1]) {
+        if ((exit_location[0] == 1 || exit_location[0] == 3) && main_car.getCol() == exit_location[1] && main_car.getisVertical()) {
             return true;
-        } else if ((exit_location[0] == 2 || exit_location[0] == 4) && main_car.getRow() == exit_location[1]) {
+        } else if ((exit_location[0] == 2 || exit_location[0] == 4) && main_car.getRow() == exit_location[1] && !main_car.getisVertical()) {
             return true;
         }
 

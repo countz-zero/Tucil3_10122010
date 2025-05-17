@@ -45,7 +45,7 @@ public class App
                 if(line.length() != B) {
                     throw new InvalidParameterException("Ada baris yang tidak sesuai panjang papan");
                 }
-                //TODO Strategy to read string?
+                //TODO Strategy to read string of board config?
             } 
 
     } catch (FileNotFoundException e) {
