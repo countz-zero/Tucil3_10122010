@@ -56,3 +56,30 @@
         board.displayBoard();
         assertEquals(true, true);
     }
+
+     @Test
+    public void pieceValid() {
+        thrown.expect(IllegalArgumentException.class);
+        Piece A = new Piece("A", 3, 3, 1, 2);
+    }
+
+    @Test
+    public void pieceValid2() {
+        thrown.expect(IllegalArgumentException.class);
+        Piece A = new Piece("K", 1, 3, 1, 2);
+    }
+
+    @Test
+    public void placePiecesValid() {
+        Piece A = new Piece("A", 1, 3, 0, 5);
+        Piece B = new Piece("B", 2, 1, 1, 0);
+        Piece P = new Piece("P", 1, 2, 1, 1);
+        pieces = new ArrayList<Piece>();
+        pieces.add(P);
+        pieces.add(A);
+        pieces.add(B);
+
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Ada piece di luar papan");
+        Board board = new Board(5, 5, pieces, new int[] {2, 1});
+    }

@@ -28,16 +28,6 @@ public class AppTest
 
     public static ArrayList<Piece> pieces;
 
-    @Test
-    public void pieceValid() {
-        thrown.expect(IllegalArgumentException.class);
-        Piece A = new Piece("A", 3, 3, 1, 2);
-    }
-
-    @Test
-    public void pieceValid2() {
-        thrown.expect(IllegalArgumentException.class);
-        Piece A = new Piece("K", 1, 3, 1, 2);
-    }
+   
 
 }

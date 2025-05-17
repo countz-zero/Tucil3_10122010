@@ -50,6 +50,10 @@ public class Board {
             int x = piece.getRow();
             int y = piece.getCol();
 
+            if(x >= row_size || x < 0 || y >= column_size || y < 0) {
+                throw new IllegalArgumentException("Ada piece di luar papan");
+            }
+
             if(piece.getisVertical()) {
                 for (int i = 0; i < piece.getSize(); i++) {
                     grid[x + i][y] = piece;
