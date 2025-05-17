@@ -1,7 +1,6 @@
 package dvp.utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
     private final int row_size;
