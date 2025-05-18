@@ -62,7 +62,6 @@ public class Board {
             }
         }
 
-        
         switch (dir) {
             case Atas:
                 if(anchor_row == 0) {
