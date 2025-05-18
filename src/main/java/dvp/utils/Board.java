@@ -34,7 +34,6 @@ public class Board {
         placePieces(gamePieces);
     }
 
-    //TODO Need changes for exit K
     public void displayBoard() {
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
@@ -88,7 +87,7 @@ public class Board {
         }
     }
 
-    public void findAndGetPCar(ArrayList<Piece> gamePieces) throws IllegalStateException{
+    public void findAndGetPCar(ArrayList<Piece> gamePieces) {
         for(Piece piece : gamePieces) {
             if(piece.getPieceName().equals("P")) {
                 main_car = piece;

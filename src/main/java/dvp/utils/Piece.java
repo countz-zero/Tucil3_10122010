@@ -2,8 +2,8 @@ package dvp.utils;
 
 public class Piece {
     private final String piece_name;
-    private final int height;
-    private final int width;
+    private int height;
+    private int width;
     private final int size;
     private final boolean isVertical;
     private int row;
@@ -70,5 +70,13 @@ public class Piece {
 
     public void setCol(int newCol) {
         row  = newCol;
+    }
+
+    public void incHeight() {
+        height += 1;
+    }
+
+    public void incWidth() {
+        width += 1;
     }
 }
