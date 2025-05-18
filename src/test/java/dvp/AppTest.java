@@ -71,7 +71,7 @@ public class AppTest
         game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(3, 3, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
-        game.board.displayBoard();
+        game.board.displayBoard(game.gamePiece.get(0));
     }
 
 }

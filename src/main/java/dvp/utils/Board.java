@@ -6,6 +6,7 @@ public class Board {
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
+    public static final String BLUE = "\u001B[34m";
 
     private final int row_size;
     private final int column_size;
@@ -57,6 +58,46 @@ public class Board {
                 } else if(grid[i][j].getPieceName().equals("P")) {
                     System.out.print(RED + "P" + RESET);
                 } else {
+                    System.out.print(grid[i][j].getPieceName());   
+                }
+
+                if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
+                    System.out.print(GREEN + "K" + RESET);
+                } else if (j == column_size - 1 && exit_location[0] == 4) {
+                   System.out.print(" ");
+                }
+            }
+
+            System.err.print("\n");
+        }
+
+        if(exit_location[0] == 3) {
+            String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
+            System.out.print(gate);
+        }
+    }
+
+    public void displayBoard(Piece piece) {
+        if(exit_location[0] == 1) {
+            String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
+            System.out.println(gate);
+        }
+
+        for (int i = 0; i < row_size; i++) {
+            for(int j = 0; j < column_size; j++) {
+                if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
+                    System.out.print(GREEN + "K" + RESET);
+                } else if (j == 0 && exit_location[0] == 2) {
+                    System.out.print(" ");
+                }
+
+                if (grid[i][j] == null) {
+                    System.out.print(".");
+                } else if(grid[i][j].getPieceName().equals("P")) {
+                    System.out.print(RED + "P" + RESET);
+                } else if (grid[i][j].getPieceName().equals(piece.getPieceName())){
+                    System.out.print(BLUE + grid[i][j].getPieceName() + RESET);
+                } else{
                     System.out.print(grid[i][j].getPieceName());   
                 }
 
