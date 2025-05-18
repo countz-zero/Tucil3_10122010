@@ -1,6 +1,7 @@
 package dvp;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -18,6 +19,7 @@ import org.junit.rules.ExpectedException;
 
 import dvp.App;
 import dvp.utils.*;
+import dvp.utils.Board.Direction;
 /**
  * Unit test for simple App.
  */
@@ -30,6 +32,9 @@ public class AppTest
     static final String filePath = "src\\test\\resources\\inputtest.txt";
     ArrayList<String> lines;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    
     @Before
     public void setUp() {
         lines = App.readAllLines(filePath);
@@ -45,7 +50,7 @@ public class AppTest
 
     @Test
     public void testingGetBoardSizeInput() {
-        int[] correctSize = {3, 3};
+        int[] correctSize = {4, 3};
         assertArrayEquals(correctSize, App.getBoardSizeInput(lines.get(0)));
     }
 
@@ -68,10 +73,11 @@ public class AppTest
     public void testingPieces2() {
         App game = new App();
 
-        game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
-        game.board = new Board(3, 3, game.gamePiece, game.exit_location);
+        game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
+        game.board = new Board(4, 3, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
-        game.board.displayBoard(game.gamePiece.get(0));
+        game.board.movePiece(game.gamePiece.get(1), Direction.Bawah);
+        game.board.displayBoard();
     }
 
 }

@@ -39,6 +39,78 @@ public class Board {
         placePieces(gamePieces);
     }
 
+    public enum Direction {
+        Atas,
+        Bawah,
+        Kiri,
+        Kanan
+    }
+
+    //*Sementara ini tidak termasuk pas mobil P keluar*/
+    public void movePiece(Piece piece, Direction dir) {
+        int anchor_row = piece.getRow();
+        int anchor_col = piece.getCol();
+        int len = piece.getSize();
+
+        if (piece.getisVertical()) {
+            if (!(dir == Direction.Atas || dir == Direction.Bawah)) {
+                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
+            }
+        } else {
+            if (!(dir == Direction.Kiri || dir == Direction.Kanan)) {
+                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
+            }
+        }
+
+        
+        switch (dir) {
+            case Atas:
+                if(anchor_row == 0) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
+                } else if (grid[anchor_row - 1][anchor_col] != null) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
+                }
+
+                grid[anchor_row - 1][anchor_col] = piece;
+                grid[anchor_row + len - 1][anchor_col] = null;
+                piece.setRow(anchor_row - 1);
+                break;
+            case Bawah:
+                if(anchor_row + len == row_size) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
+                } else if (grid[anchor_row + len][anchor_col] != null) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
+                }
+
+                grid[anchor_row + len][anchor_col] = piece;
+                grid[anchor_row][anchor_col] = null;
+                piece.setRow(anchor_row + 1);
+                break;
+            case Kiri:
+                if(anchor_col == 0) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
+                } else if (grid[anchor_row][anchor_col - 1] != null) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
+                }
+
+                grid[anchor_row][anchor_col - 1] = piece;
+                grid[anchor_row][anchor_col + len - 1] = null;
+                piece.setCol(anchor_col - 1);
+                break;
+            case Kanan:
+                if(anchor_col + len == column_size) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
+                } else if (grid[anchor_row][anchor_col + len] == null) {
+                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
+                }
+
+                grid[anchor_row][anchor_col + len] = piece;
+                grid[anchor_row][anchor_col] = null;
+                piece.setCol(anchor_col + 1);
+                break;
+        }
+    }
+
     public void displayBoard() {
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
@@ -149,7 +221,6 @@ public class Board {
         throw new IllegalArgumentException("Tidak ada mobil berlabel P");
     }
 
-    //! Ada perubahan nanti tergantung jawaban
     public boolean isCarInFrontP(ArrayList<Piece> gamePieces) {
         for (Piece piece : gamePieces) {
             if(piece.getPieceName().equals("P")) {

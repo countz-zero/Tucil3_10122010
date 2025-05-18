@@ -104,7 +104,7 @@ public class App
             String letter = "";
             for(int i = 0; i < A; i++) {
                 for(int j = 0; j < B; j++) {
-                    System.out.println(Integer.toString(i) + " " + Integer.toString(j));
+                    // System.out.println(Integer.toString(i) + " " + Integer.toString(j));
                     letter = Character.toString(lines.get(i).charAt(j));
 
                     if(letter.equals(".")) {
@@ -199,7 +199,7 @@ public class App
         Scanner scanner = new Scanner(System.in);
         System.out.println("Pilih algoritma yang ingit digunakan");
         System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
-        String input = scanner.nextLine();
+        method = scanner.nextLine();
         scanner.close();
     }
 
