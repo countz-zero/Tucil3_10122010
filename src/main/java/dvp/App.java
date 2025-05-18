@@ -137,7 +137,7 @@ public class App
             String letter = "";
             for(int i = 0; i <= A; i++) {
                 for(int j = -1; j <= B; j++) {
-                    letter = Character.toString(lines.get(i).charAt(j));
+                    letter = Character.toString(lines.get(i).charAt(j+1));
                     if (letter.equals(" ")) {
                         continue;
                     } else if (letter.equals("K") && j == -1) {
@@ -146,8 +146,7 @@ public class App
                     } else if (letter.equals("K") && j == B - 1) {
                         exit_location[0] = 4;
                         exit_location[1] = i;
-                    } else {
-                        if(letter.equals(".")) {
+                    } else if(letter.equals(".")) {
                         continue;
                     } else if(!nameTags.contains(letter)) {
                         nameTags.add(letter);
@@ -167,7 +166,6 @@ public class App
                         }
                     }
 
-                    }
                 }
             }
         }
@@ -182,6 +180,7 @@ public class App
 
         game.N = getNumOfPieces(lines.get(1));
         game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(3, lines.size())));
+        game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
         game.board.displayBoard();
     }

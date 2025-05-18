@@ -11,7 +11,7 @@ public class Piece {
 
     public Piece(String piece_name, int height, int width, int row, int col) {
         if(!isValidSize(height, width)) {
-            String errMessage = String.format("Blok %s yang ukurannya tidak valid", piece_name);
+            String errMessage = String.format("Blok %s ukurannya tidak valid", piece_name);
             throw new IllegalArgumentException(errMessage);
         }
 
@@ -33,7 +33,8 @@ public class Piece {
         return (width == 1 && height == 2) ||
                (width == 2 && height == 1) ||
                (width == 3 && height == 1) ||
-               (width == 1 && height == 3);            
+               (width == 1 && height == 3) ||
+               (width == 1 && height == 1);            
     }
 
     public int getHeight() {
