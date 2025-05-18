@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 
@@ -32,6 +33,8 @@ public class App
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
+
+            System.out.println("File input terbaca");
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }
@@ -101,6 +104,7 @@ public class App
             String letter = "";
             for(int i = 0; i < A; i++) {
                 for(int j = 0; j < B; j++) {
+                    System.out.println(Integer.toString(i) + " " + Integer.toString(j));
                     letter = Character.toString(lines.get(i).charAt(j));
 
                     if(letter.equals(".")) {
@@ -156,7 +160,25 @@ public class App
         }
     }
 
+    public void solve_board(Board board, String method) {
+        if (method == "G") {
+
+        } else if (method == "U") {
+
+        } else if (method == "A") {
+
+        }
+    }
+
+    public enum Direction {
+        Atas,
+        Bawah,
+        Kiri,
+        Kanan
+    }
+
     public static void main( String[] args ) {
+        String method;
         App game = new App();
         ArrayList<String> lines = readAllLines(filePath);
         int[] dimension = getBoardSizeInput(lines.get(0));
@@ -167,7 +189,13 @@ public class App
         game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(3, lines.size())));
         game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
-        game.board.displayBoard();
+        //game.board.displayBoard();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Pilih algoritma yang ingit digunakan");
+        System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
+        String input = scanner.nextLine();
+        scanner.close();
     }
 
     

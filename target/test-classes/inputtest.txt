@@ -1,5 +1,6 @@
 3 3
 2
- AAA
-KBPP
- B..
+AAA
+BP.
+BP. 
+ K 

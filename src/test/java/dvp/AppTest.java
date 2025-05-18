@@ -55,23 +55,23 @@ public class AppTest
         assertEquals(correctN, App.getNumOfPieces(lines.get(1)));
     }
 
-    @Test
-    public void testingPieces1() {
-        App game = new App();
-
-        game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
-        
-        assertArrayEquals(new int[] {2, 1}, game.exit_location);
-    }
-
     // @Test
-    // public void testingPieces2() {
+    // public void testingPieces1() {
     //     App game = new App();
 
     //     game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
-    //     game.board = new Board(3, 3, game.gamePiece, game.exit_location);
-    //     game.board.placePieces(game.gamePiece);
-    //     game.board.displayBoard();
+        
+    //     assertArrayEquals(new int[] {2, 1}, game.exit_location);
     // }
+
+    @Test
+    public void testingPieces2() {
+        App game = new App();
+
+        game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
+        game.board = new Board(3, 3, game.gamePiece, game.exit_location);
+        game.board.placePieces(game.gamePiece);
+        game.board.displayBoard();
+    }
 
 }

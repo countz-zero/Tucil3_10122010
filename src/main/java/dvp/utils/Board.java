@@ -3,6 +3,10 @@ package dvp.utils;
 import java.util.ArrayList;
 
 public class Board {
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+
     private final int row_size;
     private final int column_size;
     private Piece[][] grid;
@@ -36,22 +40,28 @@ public class Board {
 
     public void displayBoard() {
         if(exit_location[0] == 1) {
-            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.println(gate);
         }
 
         for (int i = 0; i < row_size; i++) {
             for(int j = 0; j < column_size; j++) {
                 if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
-                    System.out.print("K");
+                    System.out.print(GREEN + "K" + RESET);
                 } else if (j == 0 && exit_location[0] == 2) {
                     System.out.print(" ");
                 }
 
-                System.out.print(grid[i][j] == null ? "." : grid[i][j].getPieceName());
+                if (grid[i][j] == null) {
+                    System.out.print(".");
+                } else if(grid[i][j].getPieceName().equals("P")) {
+                    System.out.print(RED + "P" + RESET);
+                } else {
+                    System.out.print(grid[i][j].getPieceName());   
+                }
 
                 if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
-                    System.out.print("K");
+                    System.out.print(GREEN + "K" + RESET);
                 } else if (j == column_size - 1 && exit_location[0] == 4) {
                    System.out.print(" ");
                 }
@@ -61,7 +71,7 @@ public class Board {
         }
 
         if(exit_location[0] == 3) {
-            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.print(gate);
         }
     }
