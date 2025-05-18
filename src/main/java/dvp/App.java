@@ -87,9 +87,7 @@ public class App
                 exit_location[0] = 1;
                 exit_location[1] = firstLine.indexOf("K") ;
                 lines.remove(0);
-            } 
-        
-            if (lastLine.trim().equals("K")) {
+            } else if (lastLine.trim().equals("K")) {
                 exit_location[0] = 3;
                 exit_location[1] = lastLine.indexOf("K");
                 lines.remove(lines.size() - 1);
@@ -101,26 +99,20 @@ public class App
 
             Set<String> nameTags = new HashSet<String>();
             String letter = "";
-            for(int i = 0; i <= A; i++) {
-                for(int j = 0; j <= B; j++) {
+            for(int i = 0; i < A; i++) {
+                for(int j = 0; j < B; j++) {
                     letter = Character.toString(lines.get(i).charAt(j));
 
                     if(letter.equals(".")) {
                         continue;
                     } else if(!nameTags.contains(letter)) {
                         nameTags.add(letter);
-                        Piece piece = new Piece(letter, 1, 1, i, j);
+                        Piece piece = new Piece(letter, i, j);
                         gamePiece.add(piece);
                     } else if(nameTags.contains(letter)) {
                         for(Piece piece : gamePiece) {
-                            if(piece.getPieceName().equals(letter) && piece.getRow() == i) {
-                                piece.incWidth();
-                                break;
-                            } 
-
-                            if(piece.getPieceName().equals(letter) && piece.getCol() == j) {
-                                piece.incHeight();
-                                break;
+                            if(piece.getPieceName().equals(letter)) {
+                                piece.addPosition(i, j);
                             }
                         }
                     }
@@ -128,6 +120,7 @@ public class App
             }
 
         } else if (lines_row == A && lines_col == B + 1) {
+            //0123
             //
             //KPPB
             // AAB
@@ -135,10 +128,10 @@ public class App
 
             Set<String> nameTags = new HashSet<String>();
             String letter = "";
-            for(int i = 0; i <= A; i++) {
-                for(int j = -1; j <= B; j++) {
+            for(int i = 0; i < A; i++) {
+                for(int j = -1; j < B; j++) {
                     letter = Character.toString(lines.get(i).charAt(j+1));
-                    if (letter.equals(" ")) {
+                    if (letter.equals(" ") || letter.equals(".")) {
                         continue;
                     } else if (letter.equals("K") && j == -1) {
                         exit_location[0] = 2;
@@ -146,22 +139,14 @@ public class App
                     } else if (letter.equals("K") && j == B - 1) {
                         exit_location[0] = 4;
                         exit_location[1] = i;
-                    } else if(letter.equals(".")) {
-                        continue;
                     } else if(!nameTags.contains(letter)) {
                         nameTags.add(letter);
-                        Piece piece = new Piece(letter, 1, 1, i, j);
+                        Piece piece = new Piece(letter, i, j);
                         gamePiece.add(piece);
                     } else if(nameTags.contains(letter)) {
                         for(Piece piece : gamePiece) {
-                            if(piece.getPieceName().equals(letter) && piece.getRow() == i) {
-                                piece.incWidth();
-                                break;
-                            } 
-
-                            if(piece.getPieceName().equals(letter) && piece.getCol() == j) {
-                                piece.incHeight();
-                                break;
+                            if(piece.getPieceName().equals(letter)) {
+                                piece.addPosition(i, j);
                             }
                         }
                     }

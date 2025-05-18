@@ -2,39 +2,38 @@ package dvp.utils;
 
 public class Piece {
     private final String piece_name;
-    private int height;
-    private int width;
-    private final int size;
-    private final boolean isVertical;
+    private int height = 1;
+    private int width = 1;
+    private int size = 1;
+    private Boolean isVertical = null;
     private int row;
     private int col;
 
-    public Piece(String piece_name, int height, int width, int row, int col) {
-        if(!isValidSize(height, width)) {
-            String errMessage = String.format("Blok %s ukurannya tidak valid", piece_name);
-            throw new IllegalArgumentException(errMessage);
-        }
-
+    public Piece(String piece_name, int row, int col) {
         final String validName_String = "ABCDEFGHIJLMNOPQRSTUVWXYZ";
         if(!validName_String.contains(String.valueOf(piece_name))) {
             throw new IllegalArgumentException("K tidak boleh digunakan untuk blok");
         }
 
         this.piece_name = piece_name;
-        this.height = height;
-        this.width = width;
-        this.size = (width == 1) ? height : width;
-        this.isVertical = (width == 1) ? true : false;
         this.row = row;
         this.col = col;
     }
 
-    private boolean isValidSize(int height, int width) {
-        return (width == 1 && height == 2) ||
-               (width == 2 && height == 1) ||
-               (width == 3 && height == 1) ||
-               (width == 1 && height == 3) ||
-               (width == 1 && height == 1);            
+    public void addPosition(int i, int j) {
+        if (i == row) {
+            isVertical = false;
+            incWidth();
+            if (width > 3) {
+                throw new IllegalArgumentException("Ada blok yang tingginya lebih dari 3");
+            }
+        } else if (j == col) {
+            isVertical = true;
+            incHeight();
+            if (height > 3) {
+                throw new IllegalArgumentException("Ada blok yang lebarnya lebih dari 3");
+            }
+        }
     }
 
     public int getHeight() {
@@ -75,9 +74,11 @@ public class Piece {
 
     public void incHeight() {
         height += 1;
+        size += 1;
     }
 
     public void incWidth() {
         width += 1;
+        size += 1;
     }
 }
