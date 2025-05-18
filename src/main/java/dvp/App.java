@@ -170,6 +170,11 @@ public class App
         }
     }
 
+    public void printStep(Board board, int step, Piece piece, Direction dir) {
+        System.out.println(String.format("Gerakan %d : %s-%s", step, piece.getPieceName(), dir.toString()));
+        board.displayBoard(piece);
+    }
+
     public enum Direction {
         Atas,
         Bawah,
