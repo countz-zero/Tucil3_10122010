@@ -1,6 +1,7 @@
 package dvp.utils;
 
 public class Piece {
+    //TODO GIMANA KALO PIECE PAKE HASHMAP, ARRAYLISTNYA BIAR ENAK NYARINYA
     private final String piece_name;
     private int height = 1;
     private int width = 1;

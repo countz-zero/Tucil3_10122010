@@ -3,6 +3,7 @@ package dvp.utils;
 import java.util.ArrayList;
 
 public class Board {
+    //TODO Gimana kalo piece pake hashmap
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -207,6 +208,34 @@ public class Board {
                 }
             }
         }
+    }
+
+    public boolean isWinState() {
+        boolean isWin = false;
+        int position = exit_location[1];
+        switch (exit_location[0]) {
+            case 1:
+            if (main_car.getRow() == 0) {
+                isWin = true;
+            }
+            break;
+            case 2:
+            if(main_car.getCol() == 0) {
+                isWin = true;
+            }
+            break;
+            case 3:
+            if(main_car.getRow() + main_car.getSize() - 1 == row_size - 1) {
+                isWin = true;
+            }
+            break;
+            case 4:
+            if(main_car.getCol() + main_car.getSize() - 1 == column_size - 1) {
+                isWin =  true;
+            }
+        }
+
+        return isWin;
     }
 
     public void findAndGetPCar(ArrayList<Piece> gamePieces) {

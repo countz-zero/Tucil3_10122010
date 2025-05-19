@@ -72,7 +72,6 @@ public class App
         return N;
     }
 
-    //TODO focus
     public void getPieces(int A, int B, int N, ArrayList<String> lines) {
         int lines_row = lines.size();
         int lines_col = lines.get(0).length();

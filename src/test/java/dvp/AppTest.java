@@ -76,8 +76,7 @@ public class AppTest
         game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(4, 3, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
-        game.board.movePiece(game.gamePiece.get(1), Direction.Bawah);
-        game.board.displayBoard();
+        assertFalse(game.board.isWinState());
     }
 
 }
