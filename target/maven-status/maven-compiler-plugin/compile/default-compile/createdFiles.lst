@@ -1,3 +1,7 @@
-dvp\App.class
 dvp\utils\Board.class
+dvp\utils\Board$1.class
+dvp\App.class
+dvp\utils\Direction.class
 dvp\utils\Piece.class
+dvp\utils\Move.class
+dvp\utils\SearchNode.class

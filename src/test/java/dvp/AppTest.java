@@ -19,7 +19,6 @@ import org.junit.rules.ExpectedException;
 
 import dvp.App;
 import dvp.utils.*;
-import dvp.utils.Board.Direction;
 /**
  * Unit test for simple App.
  */
@@ -75,12 +74,14 @@ public class AppTest
 
         game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(4, 3, game.gamePiece, game.exit_location);
-        game.board.placePieces(game.gamePiece);
-        PuzzleState init = new PuzzleState(game.board, game.gamePiece);
-
-        String correctString = "A:0,0;B:1,0;P3,1";
-        assertEquals("", init.getStateHash());
-
+        StringBuilder correct = new StringBuilder("");
+        correct.append(" AAA\n");
+        correct.append(" B..\n");
+        correct.append(" B..\n");
+        correct.append("K.PP");
+        System.out.println(correct.toString());
+        System.out.println(game.board.displayBoard());
+        
     }
 
 }

@@ -54,13 +54,6 @@ public class Board {
         }
     }
 
-    public enum Direction {
-        Atas,
-        Bawah,
-        Kiri,
-        Kanan
-    }
-
     public void movePiece(Piece piece, Direction dir) {
         placePieces(gamePieces);
         int anchor_row = piece.getRow();
@@ -119,88 +112,92 @@ public class Board {
         clearBoard();
     }
 
-    public void displayBoard() {
+    public String displayBoard() {
+        StringBuilder sb = new StringBuilder();
         placePieces(gamePieces);
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            System.out.println(gate);
+            sb.append(gate + "\n");
         }
 
         for (int i = 0; i < row_size; i++) {
             for(int j = 0; j < column_size; j++) {
                 if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
-                    System.out.print(GREEN + "K" + RESET);
+                    sb.append(GREEN + "K" + RESET);
                 } else if (j == 0 && exit_location[0] == 2) {
-                    System.out.print(" ");
+                    sb.append(" ");
                 }
 
                 if (grid[i][j] == null) {
-                    System.out.print(".");
+                    sb.append(".");
                 } else if(grid[i][j].getPieceName().equals("P")) {
-                    System.out.print(RED + "P" + RESET);
+                    sb.append(RED + "P" + RESET);
                 } else {
-                    System.out.print(grid[i][j].getPieceName());   
+                    sb.append(grid[i][j].getPieceName());   
                 }
 
                 if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
-                    System.out.print(GREEN + "K" + RESET);
+                    sb.append(GREEN + "K" + RESET);
                 } else if (j == column_size - 1 && exit_location[0] == 4) {
-                   System.out.print(" ");
+                   sb.append(" ");
                 }
             }
 
-            System.err.print("\n");
+            sb.append("\n");
         }
 
         if(exit_location[0] == 3) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            System.out.print(gate);
+            sb.append(gate);
         }
 
         clearBoard();
+        return sb.toString();
     }
 
-    public void displayBoard(Piece piece) {
+    public String displayBoard(Piece piece) {
+        StringBuilder sb = new StringBuilder();
         placePieces(gamePieces);
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            System.out.println(gate);
+            sb.append(gate + "\n");
         }
 
         for (int i = 0; i < row_size; i++) {
             for(int j = 0; j < column_size; j++) {
                 if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
-                    System.out.print(GREEN + "K" + RESET);
+                    sb.append(GREEN + "K" + RESET);
                 } else if (j == 0 && exit_location[0] == 2) {
-                    System.out.print(" ");
+                    sb.append(" ");
                 }
 
                 if (grid[i][j] == null) {
-                    System.out.print(".");
+                    sb.append(".");
                 } else if(grid[i][j].getPieceName().equals("P")) {
-                    System.out.print(RED + "P" + RESET);
+                    sb.append(RED + "P" + RESET);
                 } else if (grid[i][j].getPieceName().equals(piece.getPieceName())){
-                    System.out.print(BLUE + grid[i][j].getPieceName() + RESET);
+                    sb.append(BLUE + grid[i][j].getPieceName() + RESET);
                 } else{
-                    System.out.print(grid[i][j].getPieceName());   
+                    sb.append(grid[i][j].getPieceName());   
                 }
 
                 if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
-                    System.out.print(GREEN + "K" + RESET);
+                    sb.append(GREEN + "K" + RESET);
                 } else if (j == column_size - 1 && exit_location[0] == 4) {
-                   System.out.print(" ");
+                   sb.append(" ");
                 }
             }
 
-            System.err.print("\n");
+            sb.append("\n");
         }
 
         if(exit_location[0] == 3) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            System.out.print(gate);
+            sb.append(gate);
         }
 
         clearBoard();
+        return sb.toString();
     }
 
     public void placePieces(ArrayList<Piece> gamePieces) {
@@ -264,24 +261,24 @@ public class Board {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() - 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Atas));
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Atas));
                 } else if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() + 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Bawah));
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Bawah));
                 }
             } else if(!p.getisVertical()) {
                 if(anchor_col > 0 && grid[anchor_row][anchor_col - 1] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getCol() - 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Kiri));
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kiri));
                 } else if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() + 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Kanan));
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kanan));
                 }
             }
         }

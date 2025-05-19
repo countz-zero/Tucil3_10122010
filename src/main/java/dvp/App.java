@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
@@ -52,7 +54,7 @@ public class App
                 boardSizeInput[0] = Integer.parseInt(parts[0]);
                 boardSizeInput[1] = Integer.parseInt(parts[1]);
             } else {
-                throw new IllegalArgumentException("Ada kesalahan di formatting ipnut");
+                throw new IllegalArgumentException("Ada kesalahan di formatting input");
             }
         } catch (NumberFormatException e) {
             System.err.println("Error parsing values in line " + line);
@@ -159,26 +161,73 @@ public class App
         }
     }
 
-    public void solve_board(Board board, String method) {
+    public static List<SearchNode> solveGreedy(Board initialState) {
+        return null;
+    } 
+
+    public static List<SearchNode> solveUCS(Board initialState) {
+        return null;
+    }
+    
+    public static List<SearchNode> solveAStar(Board initialState) {
+        PriorityQueue<SearchNode> openSet = new PriorityQueue<>();
+        Set<String> closedSet = new HashSet<>();
+        
+        SearchNode startNode = new SearchNode(initialState);
+
+        openSet.add(startNode);
+        while(!openSet.isEmpty()) {
+            SearchNode current = openSet.poll();
+
+            if(current.getState().isWinState()) {
+                return reconstructPath(current);
+            }
+
+            String boardStr = current.getState().displayBoard();
+            if(closedSet.contains(boardStr)) {
+                continue;
+            }
+
+            closedSet.add(boardStr);
+
+            for(Move move : current.getState().generateSuccessor()) {
+                String nextBoardStr = move.getResultState().displayBoard();
+                if (!closedSet.contains(nextBoardStr)) {
+                    SearchNode nextNode = new SearchNode(move.getResultState(), current, move.getMoveDesc());
+                    openSet.add(nextNode);
+                }
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static List<SearchNode> reconstructPath(SearchNode goalNode) {
+        List<SearchNode> path = new ArrayList<>();
+        SearchNode current = goalNode;
+        
+        while (current != null) {
+            path.add(current);
+            current = current.getParent();
+        }
+        
+        Collections.reverse(path);
+        return path;
+    }
+
+    public static List<SearchNode> solveMain(Board board, String method) {
         if (method == "G") {
-
+            return solveGreedy(board);
         } else if (method == "U") {
-
-        } else if (method == "A") {
-
+            return solveUCS(board);
+        } else {
+            return solveAStar(board);
         }
     }
 
     public void printStep(Board board, int step, Piece piece, Direction dir) {
         System.out.println(String.format("Gerakan %d : %s-%s", step, piece.getPieceName(), dir.toString()));
         board.displayBoard(piece);
-    }
-
-    public enum Direction {
-        Atas,
-        Bawah,
-        Kiri,
-        Kanan
     }
 
     public static void main( String[] args ) {
@@ -190,16 +239,35 @@ public class App
         game.B = dimension[1];
 
         game.N = getNumOfPieces(lines.get(1));
-        game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(3, lines.size())));
+        game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
-        game.board.placePieces(game.gamePiece);
-        //game.board.displayBoard();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Pilih algoritma yang ingit digunakan");
         System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
         method = scanner.nextLine();
         scanner.close();
+
+        solveMain(game.board, method);
+        System.out.println("Initial state:");
+        game.board.displayBoard();
+        
+        // Solve the puzzle
+        List<SearchNode> solution = solveMain(game.board, method);
+        
+        if (solution.isEmpty()) {
+            System.out.println("No solution found!");
+        } else {
+            System.out.println("Solution found in " + (solution.size() - 1) + " moves:");
+            
+            for (int i = 0; i < solution.size(); i++) {
+                SearchNode node = solution.get(i);
+                if (i > 0) {
+                    System.out.println("Step " + i + ": " + node.getMoveDesc());
+                }
+                node.getState().displayBoard();
+            }
+        }
     }
 
     

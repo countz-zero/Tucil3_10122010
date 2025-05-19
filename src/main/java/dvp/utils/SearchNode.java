@@ -3,12 +3,11 @@ package dvp.utils;
 import java.util.Objects;
 
 public class SearchNode implements Comparable<SearchNode>{
-    Board state;
-    SearchNode parent;
-    String moveDescription;
-    int gScore; // Cost from start to this node
-    int hScore;
-    int fScore;
+    private Board state;
+    private SearchNode parent;
+    private String moveDescription;
+    private int gScore;
+    private int fScore;
 
     public SearchNode(Board state) {
         this.state = state;
@@ -99,4 +98,25 @@ public class SearchNode implements Comparable<SearchNode>{
     public int hashCode() {
         return Objects.hash(state);
     }
+
+    public Board getState() {
+        return state;
+    }
+
+    public SearchNode getParent() {
+        return parent;
+    }
+
+    public String getMoveDesc() {
+        return moveDescription;
+    }
+
+    public int getGScore() {
+        return gScore;
+    }
+
+    public int getFScore() {
+        return fScore;
+    }
+    
 }
