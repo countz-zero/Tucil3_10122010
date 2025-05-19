@@ -3,7 +3,7 @@
 
 Rush Hour adalah permainan yang bertujuan untuk menegluarkan piece utama dengan menggeser piece lain.
 
-Program ini adalah solver untuk puzzle Rush Hour dengan menggunakan algoritma pathfinding berikut : Greedy Best First Search, Uniform Cost Search, dan A*
+Program ini adalah solver untuk puzzle Rush Hour dengan menggunakan algoritma pathfinding berikut : Greedy Best First Search, Uniform Cost Search, dan A* dalam bahasa Java
 
 Pengguna akan dapat memilih algoritma yang ingin digunakan untuk mencari solusi dari sebuah konfigurasi papan permainan Rush Hour.
 
