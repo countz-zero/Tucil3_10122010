@@ -1,6 +1,8 @@
 package dvp.utils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class Board {
     //TODO Gimana kalo piece pake hashmap
@@ -14,6 +16,8 @@ public class Board {
     private Piece[][] grid;
     private int[] exit_location; // Koordinat 0 = posisinya, koordinat 1 == angka barisannya. 1 == Atas, mutar lawan jarum jam
     private Piece main_car;
+    private int main_car_idx;
+    private ArrayList<Piece> gamePieces;
 
     public Board(int row_size, int column_size, ArrayList<Piece> gamePieces, int[] exit_location) {
         if (row_size <= 0 || column_size <= 0) {
@@ -37,7 +41,17 @@ public class Board {
             throw new IllegalArgumentException("Ada mobil yang di depan mobil merah (P)");
         }
 
-        placePieces(gamePieces);
+        this.gamePieces = gamePieces;
+    }
+
+    public Board(Board other) {
+        this.column_size = other.column_size;
+        this.row_size = other.row_size;
+        this.exit_location = other.exit_location;
+        this.gamePieces = new ArrayList<>();
+        for (Piece p : other.gamePieces) {
+            this.gamePieces.add(new Piece(p));
+        }
     }
 
     public enum Direction {
@@ -48,6 +62,7 @@ public class Board {
     }
 
     public void movePiece(Piece piece, Direction dir) {
+        placePieces(gamePieces);
         int anchor_row = piece.getRow();
         int anchor_col = piece.getCol();
         int len = piece.getSize();
@@ -70,8 +85,6 @@ public class Board {
                     throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
                 }
 
-                grid[anchor_row - 1][anchor_col] = piece;
-                grid[anchor_row + len - 1][anchor_col] = null;
                 piece.setRow(anchor_row - 1);
                 break;
             case Bawah:
@@ -81,8 +94,6 @@ public class Board {
                     throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
                 }
 
-                grid[anchor_row + len][anchor_col] = piece;
-                grid[anchor_row][anchor_col] = null;
                 piece.setRow(anchor_row + 1);
                 break;
             case Kiri:
@@ -92,8 +103,6 @@ public class Board {
                     throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
                 }
 
-                grid[anchor_row][anchor_col - 1] = piece;
-                grid[anchor_row][anchor_col + len - 1] = null;
                 piece.setCol(anchor_col - 1);
                 break;
             case Kanan:
@@ -103,14 +112,15 @@ public class Board {
                     throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
                 }
 
-                grid[anchor_row][anchor_col + len] = piece;
-                grid[anchor_row][anchor_col] = null;
                 piece.setCol(anchor_col + 1);
                 break;
         }
+
+        clearBoard();
     }
 
     public void displayBoard() {
+        placePieces(gamePieces);
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.println(gate);
@@ -146,9 +156,12 @@ public class Board {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.print(gate);
         }
+
+        clearBoard();
     }
 
     public void displayBoard(Piece piece) {
+        placePieces(gamePieces);
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.println(gate);
@@ -186,6 +199,8 @@ public class Board {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             System.out.print(gate);
         }
+
+        clearBoard();
     }
 
     public void placePieces(ArrayList<Piece> gamePieces) {
@@ -211,7 +226,6 @@ public class Board {
 
     public boolean isWinState() {
         boolean isWin = false;
-        int position = exit_location[1];
         switch (exit_location[0]) {
             case 1:
             if (main_car.getRow() == 0) {
@@ -237,15 +251,98 @@ public class Board {
         return isWin;
     }
 
+    public ArrayList<Move> generateSuccessor() {
+        ArrayList<Move> possibleMoves = new ArrayList<>();
+        placePieces(gamePieces);
+        for(int i = 0; i < gamePieces.size(); i++) {
+            Piece p = gamePieces.get(i);
+            int anchor_row = p.getRow();
+            int anchor_col = p.getCol();
+            int size = p.getSize();
+            if(p.getisVertical()) {
+                if(anchor_row > 0 && grid[anchor_row - 1][anchor_col] == null) {
+                    Board newState = new Board(this);
+                    Piece newPiece = newState.gamePieces.get(i);
+                    newPiece.setRow(newPiece.getRow() - 1);
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Atas));
+                } else if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
+                    Board newState = new Board(this);
+                    Piece newPiece = newState.gamePieces.get(i);
+                    newPiece.setRow(newPiece.getRow() + 1);
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Bawah));
+                }
+            } else if(!p.getisVertical()) {
+                if(anchor_col > 0 && grid[anchor_row][anchor_col - 1] == null) {
+                    Board newState = new Board(this);
+                    Piece newPiece = newState.gamePieces.get(i);
+                    newPiece.setRow(newPiece.getCol() - 1);
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Kiri));
+                } else if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
+                    Board newState = new Board(this);
+                    Piece newPiece = newState.gamePieces.get(i);
+                    newPiece.setRow(newPiece.getRow() + 1);
+                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Move.Direction.Kanan));
+                }
+            }
+        }
+
+        return possibleMoves;
+    } 
+
+    public String getStateHash() {
+        StringBuilder sb = new StringBuilder("");
+        ArrayList<Piece> sortedPieces = new ArrayList<>(gamePieces);
+        sortedPieces.sort(Comparator.comparing(Piece::getPieceName));
+
+         for (Piece p : sortedPieces) {
+            sb.append(p.getPieceName()).append(":");
+            sb.append(p.getRow()).append(",");
+            sb.append(p.getCol()).append(";");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board state = (Board) o;
+        
+        if (gamePieces.size() != state.gamePieces.size()) return false;
+        
+        for (int i = 0; i < gamePieces.size(); i++) {
+            if (!gamePieces.get(i).equals(state.gamePieces.get(i))) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(gamePieces);
+    }
+
     public void findAndGetPCar(ArrayList<Piece> gamePieces) {
-        for(Piece piece : gamePieces) {
-            if(piece.getPieceName().equals("P")) {
-                main_car = piece;
+        for(int i = 0; i < gamePieces.size(); i++) {
+            if(gamePieces.get(i).getPieceName().equals("P")) {
+                main_car = gamePieces.get(i);
+                main_car_idx = i;
                 return;
             }
         }
 
         throw new IllegalArgumentException("Tidak ada mobil berlabel P");
+    }
+
+    public void clearBoard() {
+        for (int i = 0; i < row_size; i++) {
+            for(int j = 0; j < column_size; j++) {
+                grid[i][j] = null;
+        }
+    }
     }
 
     public boolean isCarInFrontP(ArrayList<Piece> gamePieces) {
@@ -281,4 +378,38 @@ public class Board {
 
         return false;
     }
+
+    public int getRowSize() {
+        return row_size;
+    }
+
+    public int getColSize() {
+        return column_size;
+    }
+
+    public int getExitLocationOrientation() {
+        return exit_location[0];
+    }
+
+    public int getExitLocationPosition() {
+        return exit_location[1];
+    }
+
+    public Piece getMainPiece() {
+        return main_car;
+    }
+
+    public int getMainCarIdx() {
+        return main_car_idx;
+    }
+
+    public ArrayList<Piece> getGamePieces() {
+        return gamePieces;
+    }
+
+    public Piece[][] getGrid() {
+        placePieces(gamePieces);
+        return grid;
+    }
+
 }
