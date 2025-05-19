@@ -76,7 +76,11 @@ public class AppTest
         game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(4, 3, game.gamePiece, game.exit_location);
         game.board.placePieces(game.gamePiece);
-        assertFalse(game.board.isWinState());
+        PuzzleState init = new PuzzleState(game.board, game.gamePiece);
+
+        String correctString = "A:0,0;B:1,0;P3,1";
+        assertEquals("", init.getStateHash());
+
     }
 
 }

@@ -47,7 +47,6 @@ public class Board {
         Kanan
     }
 
-    //*Sementara ini tidak termasuk pas mobil P keluar*/
     public void movePiece(Piece piece, Direction dir) {
         int anchor_row = piece.getRow();
         int anchor_col = piece.getCol();

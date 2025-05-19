@@ -1,5 +1,7 @@
 package dvp.utils;
 
+import java.util.Objects;
+
 public class Piece {
     //TODO GIMANA KALO PIECE PAKE HASHMAP, ARRAYLISTNYA BIAR ENAK NYARINYA
     private final String piece_name;
@@ -21,6 +23,16 @@ public class Piece {
         this.col = col;
     }
 
+    public Piece(Piece other) {
+        this.piece_name = other.piece_name;
+        this.row = other.row;
+        this.col = other.col;
+        this.height = other.height;
+        this.row = other.row;
+        this.size = other.size;
+        this.isVertical = other.isVertical;
+    }
+
     public void addPosition(int i, int j) {
         if (i == row) {
             isVertical = false;
@@ -35,6 +47,22 @@ public class Piece {
                 throw new IllegalArgumentException("Ada blok yang lebarnya lebih dari 3");
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return row == piece.row && 
+               col == piece.col && 
+               size == piece.size && 
+               isVertical == piece.isVertical;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col, size, isVertical);
     }
 
     public int getHeight() {
