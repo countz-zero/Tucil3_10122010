@@ -23,9 +23,11 @@ public class App
 {
     int A = 0, B = 0, N = 0;
     int[] exit_location = {0, 0};
+    int[] dimension = {0, 0};
     Board board;
     ArrayList<Piece> gamePiece = new ArrayList<Piece>();
     static final String filePath = "src\\main\\resources\\input.txt";
+    String method;
     
 
     public static ArrayList<String> readAllLines(String filePath) {
@@ -216,12 +218,14 @@ public class App
     }
 
     public static List<SearchNode> solveMain(Board board, String method) {
-        if (method == "G") {
+        if (method.equals("G")) {
             return solveGreedy(board);
-        } else if (method == "U") {
+        } else if (method.equals("U")) {
             return solveUCS(board);
-        } else {
+        } else if (method.equals("A")){
             return solveAStar(board);
+        } else {
+            throw new IllegalArgumentException("Kode metode tidak valid");
         }
     }
 
@@ -231,10 +235,10 @@ public class App
     }
 
     public static void main( String[] args ) {
-        String method;
         App game = new App();
-        ArrayList<String> lines = readAllLines(filePath);
+        ArrayList<String> lines = readAllLines(App.filePath);
         int[] dimension = getBoardSizeInput(lines.get(0));
+        game.dimension = dimension;
         game.A = dimension[0];
         game.B = dimension[1];
 
@@ -245,15 +249,17 @@ public class App
         Scanner scanner = new Scanner(System.in);
         System.out.println("Pilih algoritma yang ingit digunakan");
         System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
-        method = scanner.nextLine();
+        game.method = scanner.nextLine();
         scanner.close();
 
-        solveMain(game.board, method);
+        System.out.println(game.method);
+
+        solveMain(game.board, game.method);
         System.out.println("Initial state:");
         game.board.displayBoard();
         
         // Solve the puzzle
-        List<SearchNode> solution = solveMain(game.board, method);
+        List<SearchNode> solution = solveMain(game.board, game.method);
         
         if (solution.isEmpty()) {
             System.out.println("No solution found!");

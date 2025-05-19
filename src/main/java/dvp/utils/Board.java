@@ -26,7 +26,6 @@ public class Board {
 
         this.row_size = row_size;
         this.column_size = column_size;
-
         this.grid = new Piece[row_size][column_size];
 
         findAndGetPCar(gamePieces);
@@ -55,7 +54,7 @@ public class Board {
     }
 
     public void movePiece(Piece piece, Direction dir) {
-        placePieces(gamePieces);
+        placePieces();
         int anchor_row = piece.getRow();
         int anchor_col = piece.getCol();
         int len = piece.getSize();
@@ -114,7 +113,7 @@ public class Board {
 
     public String displayBoard() {
         StringBuilder sb = new StringBuilder();
-        placePieces(gamePieces);
+        placePieces();
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             sb.append(gate + "\n");
@@ -157,7 +156,7 @@ public class Board {
 
     public String displayBoard(Piece piece) {
         StringBuilder sb = new StringBuilder();
-        placePieces(gamePieces);
+        placePieces();
         if(exit_location[0] == 1) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
             sb.append(gate + "\n");
@@ -200,7 +199,7 @@ public class Board {
         return sb.toString();
     }
 
-    public void placePieces(ArrayList<Piece> gamePieces) {
+    public void placePieces() {
         for (Piece piece : gamePieces) {
             int x = piece.getRow();
             int y = piece.getCol();
@@ -250,7 +249,7 @@ public class Board {
 
     public ArrayList<Move> generateSuccessor() {
         ArrayList<Move> possibleMoves = new ArrayList<>();
-        placePieces(gamePieces);
+        placePieces();
         for(int i = 0; i < gamePieces.size(); i++) {
             Piece p = gamePieces.get(i);
             int anchor_row = p.getRow();
@@ -405,7 +404,7 @@ public class Board {
     }
 
     public Piece[][] getGrid() {
-        placePieces(gamePieces);
+        placePieces();
         return grid;
     }
 

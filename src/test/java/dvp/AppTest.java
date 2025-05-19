@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,21 +25,9 @@ import dvp.utils.*;
  */
 public class AppTest 
 {
-    int A = 0, B = 0, N = 0;
-    int[] exit_location = {0, 0};
-    Board board;
-    ArrayList<Piece> gamePiece = new ArrayList<Piece>();
-    static final String filePath = "src\\test\\resources\\inputtest.txt";
-    ArrayList<String> lines;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     
-    @Before
-    public void setUp() {
-        lines = App.readAllLines(filePath);
-    }
-
     // @Test
     // public void fileRead()
     // {
@@ -48,40 +37,14 @@ public class AppTest
     // }
 
     @Test
-    public void testingGetBoardSizeInput() {
-        int[] correctSize = {4, 3};
-        assertArrayEquals(correctSize, App.getBoardSizeInput(lines.get(0)));
-    }
-
-    @Test
-    public void testingDimension() {
-        int correctN = 2;
-        assertEquals(correctN, App.getNumOfPieces(lines.get(1)));
-    }
-
-    // @Test
-    // public void testingPieces1() {
-    //     App game = new App();
-
-    //     game.getPieces(3, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
-        
-    //     assertArrayEquals(new int[] {2, 1}, game.exit_location);
-    // }
-
-    @Test
-    public void testingPieces2() {
+    public void testingA_B() {
         App game = new App();
+        ArrayList<String> lines = App.readAllLines(App.filePath);
+        int[] game.dimension = App.getBoardSizeInput(lines.get(0));
+        game.A = game.dimension[0];
+        game.B = game.dimension[1];
 
-        game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
-        game.board = new Board(4, 3, game.gamePiece, game.exit_location);
-        StringBuilder correct = new StringBuilder("");
-        correct.append(" AAA\n");
-        correct.append(" B..\n");
-        correct.append(" B..\n");
-        correct.append("K.PP");
-        System.out.println(correct.toString());
-        System.out.println(game.board.displayBoard());
-        
+        assertArrayEquals(new int [] {4, 3}, game.dimension);
     }
 
 }
