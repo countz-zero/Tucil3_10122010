@@ -1,4 +1,4 @@
-# rush-hour-solver
+# Solver Permainan Rush Hour
 ### Dibuat oleh : Dzubyan Ilman Ramadhan (10122010)
 Rush Hour adalah permainan yang bertujuan untuk menegluarkan piece utama dengan menggeser piece lain.
 
@@ -49,7 +49,24 @@ Cara Menggunakan Program :
 6. Output akan dihasilkan di terminal dan file txt `output.txt` di folder `test` dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
 
 
-   
+## Troubleshooting
+
+> Folder test kok isinya bukan txt?
+
+Anda mungkin tidak sengaja membuka folder `test` untuk keperluan testing. Folder `test` yang benar berada di luar, bersama folder `bin`, `src`, dan lainnya.
+
+> `mvn compile` tidak bisa
+
+Update Java Anda menjadi yang terbaru.
+
+> Masih tidak bisa :(
+
+Lakukan step ini : 
+1. Buka terminal command prompt
+2. Jalankan `cd src/main`
+3. Jalankan `javac App.java`
+4. Jalankan `java App`
+
    
 
 
