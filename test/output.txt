@@ -1,0 +1,20 @@
+[32mK[0m    
+.AA
+.BB
+[31mP[0m..
+[31mP[0m..
+Gerakan 1: P-Atas
+[32mK[0m    
+.AA
+[31mP[0mBB
+[31mP[0m..
+...
+Gerakan 2: P-Atas
+[32mK[0m    
+[31mP[0mAA
+[31mP[0mBB
+...
+...
+
+Waktu yang dibutuhkan : 21 ms
+Banyak simpul yang dikunjungi : 5

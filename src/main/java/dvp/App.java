@@ -27,7 +27,7 @@ public class App
     int[] dimension = {0, 0};
     Board board;
     ArrayList<Piece> gamePiece = new ArrayList<Piece>();
-    static final String filePath = "src\\main\\test\\input.txt";
+    static final String filePath = "test\\input.txt";
     String method;
     int nodeCount;
     
@@ -176,14 +176,15 @@ public class App
             SearchNode current = openSet.poll();
             nodeCount++;
 
+            String boardStr = current.getState().displayBoard();
+
+            if(closedSet.contains(boardStr)) {
+                continue;
+            }
+
             if(current.getState().isWinState()) {
                 System.out.println("Win!");
                 return reconstructPath(current);
-            }
-
-            String boardStr = current.getState().displayBoard();
-            if(closedSet.contains(boardStr)) {
-                continue;
             }
 
             closedSet.add(boardStr);
@@ -278,7 +279,7 @@ public class App
         // }
 
         try {
-            FileWriter writer = new FileWriter("src\\main\\test\\output.txt");
+            FileWriter writer = new FileWriter("test\\output.txt");
             writer.write(printSolution(solution) + "\n");
             writer.write("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
             writer.write("Banyak simpul yang dikunjungi : " + game.nodeCount);

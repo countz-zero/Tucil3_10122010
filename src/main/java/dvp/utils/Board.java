@@ -242,6 +242,7 @@ public class Board {
 
     public boolean isWinState() {
         boolean isWin = false;
+        Piece main_car = gamePieces.get(main_car_idx);
         switch (exit_location[0]) {
             case 1:
             if (main_car.getRow() == 0) {
@@ -263,6 +264,7 @@ public class Board {
                 isWin =  true;
             }
         }
+        System.out.println(main_car.getRow());
         System.out.println(isWin? "Win!" : "Nah");
         return isWin;
     }
