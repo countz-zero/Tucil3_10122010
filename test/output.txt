@@ -1,4 +1,4 @@
-Solusi ditemukan pada 6 gerakan: 
+Solusi ditemukan pada 4 gerakan: 
 Papan Awal
 K    
 AA.
@@ -29,23 +29,11 @@ P..
 
 Gerakan 4: P-Atas
 K    
-.AA
-.BB
+PAA
+PBB
 ...
 ...
 
-Gerakan 5: P-Atas
-K    
-.AA
-.BB
-...
-...
-Gerakan 6: P-Atas
-K    
-.AA
-.BB
-...
-...
 
-Waktu yang dibutuhkan : 4 ms
+Waktu yang dibutuhkan : 0 ms
 Banyak simpul yang dikunjungi : 8

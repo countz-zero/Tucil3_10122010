@@ -214,7 +214,7 @@ public class App
         if (solution.isEmpty()) {
             sb.append("Tidak ada solusi yang ditemukan!");
         } else {
-            sb.append("Solusi ditemukan pada " + (solution.size() -1 + 2) + " gerakan: \n");
+            sb.append("Solusi ditemukan pada " + (solution.size() -1) + " gerakan: \n");
             sb.append("Papan Awal\n");
             for (int i = 0; i < solution.size(); i++) {
                 SearchNode node = solution.get(i);
@@ -232,7 +232,6 @@ public class App
             }
 
             Board last_config = solution.get(solution.size() - 1).getState();
-            sb.append(last_config.printExitWin(solution.size(), isWithColor));
         }
 
         return sb.toString();
