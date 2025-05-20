@@ -27,8 +27,9 @@ public class App
     int[] dimension = {0, 0};
     Board board;
     ArrayList<Piece> gamePiece = new ArrayList<Piece>();
-    static final String filePath = "src\\main\\resources\\input.txt";
+    static final String filePath = "src\\main\\test\\input.txt";
     String method;
+    int nodeCount;
     
 
     public static ArrayList<String> readAllLines(String filePath) {
@@ -173,6 +174,7 @@ public class App
         openSet.add(startNode);
         while(!openSet.isEmpty()) {
             SearchNode current = openSet.poll();
+            nodeCount++;
 
             if(current.getState().isWinState()) {
                 System.out.println("Win!");
@@ -252,9 +254,14 @@ public class App
         System.out.println(game.board.displayBoard());
         
         // Solve the puzzle
+        long startTime = System.currentTimeMillis();
         List<SearchNode> solution = game.solve(game.board, game.method);
+        long endTime = System.currentTimeMillis();
 
+        long timeElapsed = endTime - startTime;
         System.out.println(printSolution(solution));
+        System.out.println("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
+        System.out.println("Banyak simpul yang dikunjungi : " + game.nodeCount);
         
         // if (solution.isEmpty()) {
         //     System.out.println("No solution found!");
@@ -271,8 +278,10 @@ public class App
         // }
 
         try {
-            FileWriter writer = new FileWriter("src\\main\\resources\\output.txt");
-            writer.write(printSolution(solution));
+            FileWriter writer = new FileWriter("src\\main\\test\\output.txt");
+            writer.write(printSolution(solution) + "\n");
+            writer.write("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
+            writer.write("Banyak simpul yang dikunjungi : " + game.nodeCount);
             writer.close(); // Always close the writer
             System.out.println("Solusi ditulis ke solution.txt di folder test");
         } catch (IOException e) {
