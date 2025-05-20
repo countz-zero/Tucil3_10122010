@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class Board {
-    //TODO Gimana kalo piece pake hashmap
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -57,64 +56,6 @@ public class Board {
         
         this.main_car_idx = other.main_car_idx;
         this.grid = other.grid;
-    }
-
-    public void movePiece(Piece piece, Direction dir) {
-        placePieces();
-        int anchor_row = piece.getRow();
-        int anchor_col = piece.getCol();
-        int len = piece.getSize();
-
-        if (piece.getisVertical()) {
-            if (!(dir == Direction.Atas || dir == Direction.Bawah)) {
-                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
-            }
-        } else {
-            if (!(dir == Direction.Kiri || dir == Direction.Kanan)) {
-                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
-            }
-        }
-
-        switch (dir) {
-            case Atas:
-                if(anchor_row == 0) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row - 1][anchor_col] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setRow(anchor_row - 1);
-                break;
-            case Bawah:
-                if(anchor_row + len == row_size) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row + len][anchor_col] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setRow(anchor_row + 1);
-                break;
-            case Kiri:
-                if(anchor_col == 0) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row][anchor_col - 1] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setCol(anchor_col - 1);
-                break;
-            case Kanan:
-                if(anchor_col + len == column_size) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row][anchor_col + len] == null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setCol(anchor_col + 1);
-                break;
-        }
-
-        clearBoard();
     }
 
     public String displayBoard() {
@@ -241,10 +182,75 @@ public class Board {
 
         if(exit_location[0] == 3) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            sb.append(gate);
+            sb.append(gate + "\n");
         }
 
         clearBoard();
+        return sb.toString();
+    }
+
+    public String printExitWin(int step, boolean isWithColor) {
+        StringBuilder sb = new StringBuilder();
+        if(!isWinState()) {
+            return "Tidak bisa mengeluarkan P karena belum menang";
+        }
+
+        int size = main_car.getSize();
+        int ori = exit_location[0];
+        int pos = exit_location[1];
+
+        switch (ori) {
+            case 1:
+                for(int i = 0; i < size; i++) {
+                    sb.append("Gerakan " + (step + i) + ": P-Atas" + "\n");
+                    gamePieces.get(main_car_idx).decHeight();
+                    if (isWithColor) {
+                        sb.append(displayBoard());
+                    } else {
+                        sb.append(displayBoardNoColor());
+                    }
+                }
+                break;
+        
+            case 2:
+                for(int i = 0; i < size; i++) {
+                    sb.append("Gerakan " + (step + i) + ": P-Atas" + "\n");
+                    gamePieces.get(main_car_idx).decHeight();
+                    if (isWithColor) {
+                        sb.append(displayBoard());
+                    } else {
+                        sb.append(displayBoardNoColor());
+                    }
+                }
+                break;
+            case 3:
+            //col - 
+            for(int i = 0; i <= size; i++) {
+                    sb.append("Gerakan " + (step + i) + ": P-Atas" + "\n");
+                    gamePieces.get(main_car_idx).setRow(row_size - size + 1 + i);
+                    gamePieces.get(main_car_idx).decHeight();
+                    sb.append(displayBoard());
+                    if (isWithColor) {
+                        sb.append(displayBoard());
+                    } else {
+                        sb.append(displayBoardNoColor());
+                    }
+                }
+            break;
+            case 4:
+            for(int i = 0; i <= size; i++) {
+                    sb.append("Gerakan " + (step + i) + ": P-Kanan" + "\n");
+                    gamePieces.get(main_car_idx).setCol(column_size - size + 1 + i);
+                    gamePieces.get(main_car_idx).decWidth();
+                    sb.append(displayBoard());
+                    if (isWithColor) {
+                        sb.append(displayBoard());
+                    } else {
+                        sb.append(displayBoardNoColor());
+                    }
+                }
+        }
+
         return sb.toString();
     }
 
@@ -267,14 +273,14 @@ public class Board {
             if(piece.getisVertical()) {
                 for (int i = 0; i < piece.getSize(); i++) {
                     if(grid[anchor_row + i][anchor_col] != null) {
-                        throw new IllegalStateException("Position is already occupied");
+                        throw new IllegalStateException("Position sudah diisi");
                     }
                     grid[anchor_row + i][anchor_col] = piece;
                 }
             } else {
                 for (int i = 0; i < piece.getSize(); i++) {
                     if(grid[anchor_row][anchor_col + i] != null) {
-                        throw new IllegalStateException("Position is already occupied");
+                        throw new IllegalStateException("Posisi sudah diisi");
                     }
                     grid[anchor_row][anchor_col + i] = piece;
                 }
@@ -306,8 +312,7 @@ public class Board {
                 isWin =  true;
             }
         }
-        System.out.println(main_car.getRow());
-        System.out.println(isWin? "Win!" : "Nah");
+ 
         return isWin;
     }
 

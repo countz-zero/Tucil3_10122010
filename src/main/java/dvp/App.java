@@ -1,11 +1,9 @@
 package dvp;
 import dvp.utils.*;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 
 /**
@@ -182,7 +179,6 @@ public class App
             }
 
             if(current.getState().isWinState()) {
-                System.out.println("Win!");
                 return reconstructPath(current);
             }
 
@@ -213,13 +209,13 @@ public class App
         return path;
     }
 
-    public static String printSolution(List<SearchNode> solution) {
+    public static String printSolution(List<SearchNode> solution, boolean isWithColor) {
         StringBuilder sb = new StringBuilder("");
         if (solution.isEmpty()) {
             sb.append("Tidak ada solusi yang ditemukan!");
         } else {
-            System.out.println("Solusi ditemukan pada " + (solution.size() - 1) + " gerakan:");
-            
+            sb.append("Solusi ditemukan pada " + (solution.size() -1 + 2) + " gerakan: \n");
+            sb.append("Papan Awal\n");
             for (int i = 0; i < solution.size(); i++) {
                 SearchNode node = solution.get(i);
                 if (i > 0) {
@@ -227,30 +223,16 @@ public class App
                 }
 
                 String piece_name = Character.toString(node.getMoveDesc().charAt(0));
-                sb.append(node.getState().displayBoard(piece_name));
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public static String printSolutionNoColor(List<SearchNode> solution) {
-        StringBuilder sb = new StringBuilder("");
-        if (solution.isEmpty()) {
-            sb.append("Tidak ada solusi yang ditemukan!");
-        } else {
-            System.out.println("Solusi ditemukan pada " + (solution.size() - 1) + " gerakan:");
-            System.out.println("Papan awal : ");
-            for (int i = 0; i < solution.size(); i++) {
-                SearchNode node = solution.get(i);
-                if (i > 0) {
-                    sb.append("Gerakan " + i + ": " + node.getMoveDesc() + "\n");
+                if(isWithColor) {
+                    sb.append(node.getState().displayBoard(piece_name));
+                } else {
+                    sb.append(node.getState().displayBoardNoColor());
+                    sb.append("\n");
                 }
-
-                String piece_name = Character.toString(node.getMoveDesc().charAt(0));
-                sb.append(node.getState().displayBoardNoColor());
-                sb.append("\n");
             }
+
+            Board last_config = solution.get(solution.size() - 1).getState();
+            sb.append(last_config.printExitWin(solution.size(), isWithColor));
         }
 
         return sb.toString();
@@ -287,7 +269,7 @@ public class App
         long endTime = System.currentTimeMillis();
 
         long timeElapsed = endTime - startTime;
-        System.out.println(printSolution(solution));
+        System.out.println(printSolution(solution, true));
         System.out.println("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
         System.out.println("Banyak simpul yang dikunjungi : " + game.nodeCount);
         
@@ -307,7 +289,7 @@ public class App
 
         try {
             FileWriter writer = new FileWriter("test\\output.txt");
-            writer.write(printSolutionNoColor(solution) + "\n");
+            writer.write(printSolution(solution, false) + "\n");
             writer.write("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
             writer.write("Banyak simpul yang dikunjungi : " + game.nodeCount);
             writer.close(); // Always close the writer

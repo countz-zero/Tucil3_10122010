@@ -1,3 +1,5 @@
+Solusi ditemukan pada 6 gerakan: 
+Papan Awal
 K    
 AA.
 BB.
@@ -27,11 +29,23 @@ P..
 
 Gerakan 4: P-Atas
 K    
-PAA
-PBB
+.AA
+.BB
 ...
 ...
 
+Gerakan 5: P-Atas
+K    
+.AA
+.BB
+...
+...
+Gerakan 6: P-Atas
+K    
+.AA
+.BB
+...
+...
 
-Waktu yang dibutuhkan : 6 ms
+Waktu yang dibutuhkan : 4 ms
 Banyak simpul yang dikunjungi : 8
