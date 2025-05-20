@@ -1,6 +1,5 @@
 # rush-hour-solver
 ### Dibuat oleh : Dzubyan Ilman Ramadhan (10122010)
-
 Rush Hour adalah permainan yang bertujuan untuk menegluarkan piece utama dengan menggeser piece lain.
 
 Program ini adalah solver untuk puzzle Rush Hour dengan menggunakan algoritma pathfinding berikut : Greedy Best First Search, Uniform Cost Search, dan A* dalam bahasa Java
@@ -47,7 +46,7 @@ Cara Menggunakan Program :
    
 4. Jalankan program dengan `mvn exec:java`
 5. Masukkan kode metode heuristics yang diinginkan sesuai yang tertera di terminal. (`G` untuk Greedy Best First Search, `U` untuk Uniform Cost Search, `A` untuk A*)
-6. Output akan dihasilkan di terminal dan file txt `output.txt` di folder `resources` dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
+6. Output akan dihasilkan di terminal dan file txt `output.txt` di folder `test` dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
 
 
    
