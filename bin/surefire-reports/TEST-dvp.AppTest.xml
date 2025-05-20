@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dvp.AppTest" time="0.057" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="dvp.AppTest" time="0.073" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\target\test-classes;C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\target\classes;C:\Users\DZUBYAN ILMAN R\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DZUBYAN ILMAN R\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.class.path" value="C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\bin\test-classes;C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\bin\classes;C:\Users\DZUBYAN ILMAN R\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DZUBYAN ILMAN R\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,9 +15,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="ID"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\DZUBYA~1\AppData\Local\Temp\surefire1496244118847802462\surefirebooter13395909547743651377.jar C:\Users\DZUBYAN ILMAN R\AppData\Local\Temp\surefire1496244118847802462 2025-05-20T19-48-30_779-jvmRun1 surefire9968054749129612369tmp surefire_02751878949392278892tmp"/>
+    <property name="sun.java.command" value="C:\Users\DZUBYA~1\AppData\Local\Temp\surefire16780467524974227949\surefirebooter9498667425289076310.jar C:\Users\DZUBYAN ILMAN R\AppData\Local\Temp\surefire16780467524974227949 2025-05-20T22-56-25_589-jvmRun1 surefire1916728673904504510tmp surefire_015179720318322813901tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\target\test-classes;C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\target\classes;C:\Users\DZUBYAN ILMAN R\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DZUBYAN ILMAN R\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\bin\test-classes;C:\Users\DZUBYAN ILMAN R\Documents\algo_strat_class\rush-hour-solver\bin\classes;C:\Users\DZUBYAN ILMAN R\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DZUBYAN ILMAN R\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\DZUBYAN ILMAN R"/>
     <property name="user.language" value="en"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\DZUBYA~1\AppData\Local\Temp\surefire1496244118847802462\surefirebooter13395909547743651377.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\DZUBYA~1\AppData\Local\Temp\surefire16780467524974227949\surefirebooter9498667425289076310.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testingA_B" classname="dvp.AppTest" time="0.007"/>
+  <testcase name="testingA_B" classname="dvp.AppTest" time="0.01"/>
 </testsuite>

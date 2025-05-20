@@ -160,6 +160,49 @@ public class Board {
         return sb.toString();
     }
 
+    public String displayBoardNoColor() {
+        StringBuilder sb = new StringBuilder();
+        placePieces();
+        if(exit_location[0] == 1) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            sb.append(gate + "\n");
+        }
+
+        for (int i = 0; i < row_size; i++) {
+            for(int j = 0; j < column_size; j++) {
+                if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
+                    sb.append("K");
+                } else if (j == 0 && exit_location[0] == 2) {
+                    sb.append(" ");
+                }
+
+                if (grid[i][j] == null) {
+                    sb.append(".");
+                } else if(grid[i][j].getPieceName().equals("P")) {
+                    sb.append("P");
+                } else {
+                    sb.append(grid[i][j].getPieceName());   
+                }
+
+                if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
+                    sb.append("K");
+                } else if (j == column_size - 1 && exit_location[0] == 4) {
+                   sb.append(" ");
+                }
+            }
+
+            sb.append("\n");
+        }
+
+        if(exit_location[0] == 3) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            sb.append(gate);
+        }
+
+        clearBoard();
+        return sb.toString();
+    }
+
     public String displayBoard(String piece_name) {
         StringBuilder sb = new StringBuilder();
         placePieces();

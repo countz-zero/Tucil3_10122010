@@ -27,7 +27,6 @@ public class App
     int[] dimension = {0, 0};
     Board board;
     ArrayList<Piece> gamePiece = new ArrayList<Piece>();
-    static final String filePath = "test\\input.txt";
     String method;
     int nodeCount;
     
@@ -40,9 +39,9 @@ public class App
                 lines.add(line);
             }
 
-            System.out.println("File input terbaca");
+            System.out.println(String.format("File input di %s terbaca", filePath));
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.err.println("Error membaca file: " + e.getMessage());
         }
 
         return lines;
@@ -61,7 +60,7 @@ public class App
                 throw new IllegalArgumentException("Ada kesalahan di formatting input");
             }
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing values in line " + line);
+            System.err.println("Error membaca input di baris : " + line);
         }
         return boardSizeInput;
     }
@@ -72,7 +71,7 @@ public class App
             // Split the line by whitespace or comma (adjust delimiter as needed)
             N = Integer.parseInt(line.trim());
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing values in line " + line);
+            System.err.println("Error membaca input di baris : " + line);
         }
 
         return N;
@@ -235,7 +234,34 @@ public class App
         return sb.toString();
     }
 
+    public static String printSolutionNoColor(List<SearchNode> solution) {
+        StringBuilder sb = new StringBuilder("");
+        if (solution.isEmpty()) {
+            sb.append("Tidak ada solusi yang ditemukan!");
+        } else {
+            System.out.println("Solusi ditemukan pada " + (solution.size() - 1) + " gerakan:");
+            System.out.println("Papan awal : ");
+            for (int i = 0; i < solution.size(); i++) {
+                SearchNode node = solution.get(i);
+                if (i > 0) {
+                    sb.append("Gerakan " + i + ": " + node.getMoveDesc() + "\n");
+                }
+
+                String piece_name = Character.toString(node.getMoveDesc().charAt(0));
+                sb.append(node.getState().displayBoardNoColor());
+                sb.append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
     public static void main( String[] args ) {
+        System.out.println("Masukkan nama file txt yang dijadikan input (pakai .txt di akhir)");
+        Scanner scanner = new Scanner(System.in);
+        String inputName = scanner.nextLine();
+        String filePath = "test\\" + inputName;
+
         App game = new App();
         ArrayList<String> lines = readAllLines(filePath);
         int[] dimension = getBoardSizeInput(lines.get(0));
@@ -247,7 +273,6 @@ public class App
         game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Pilih algoritma yang ingit digunakan");
         System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
         game.method = scanner.nextLine();
@@ -282,7 +307,7 @@ public class App
 
         try {
             FileWriter writer = new FileWriter("test\\output.txt");
-            writer.write(printSolution(solution) + "\n");
+            writer.write(printSolutionNoColor(solution) + "\n");
             writer.write("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
             writer.write("Banyak simpul yang dikunjungi : " + game.nodeCount);
             writer.close(); // Always close the writer
