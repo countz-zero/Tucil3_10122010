@@ -39,12 +39,13 @@ public class AppTest
     @Test
     public void testingA_B() {
         App game = new App();
-        ArrayList<String> lines = App.readAllLines(App.filePath);
-        int[] game.dimension = App.getBoardSizeInput(lines.get(0));
-        game.A = game.dimension[0];
-        game.B = game.dimension[1];
-
-        assertArrayEquals(new int [] {4, 3}, game.dimension);
+        ArrayList<String> lines = App.readAllLines("src\\test\\resources\\inputtest.txt");
+        game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
+        game.board = new Board(4, 3, game.gamePiece, game.exit_location);
+        ArrayList<Move> testSuccMoves = game.board.generateSuccessor();
+        for (Move m : testSuccMoves) {
+            System.out.println(m.getResultState().displayBoard());
+        }
     }
 
 }

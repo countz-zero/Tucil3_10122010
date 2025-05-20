@@ -13,7 +13,7 @@ public class Board {
 
     private final int row_size;
     private final int column_size;
-    private Piece[][] grid;
+    private Piece[][] grid = null;
     private int[] exit_location; // Koordinat 0 = posisinya, koordinat 1 == angka barisannya. 1 == Atas, mutar lawan jarum jam
     private Piece main_car;
     private int main_car_idx;
@@ -50,7 +50,13 @@ public class Board {
         this.gamePieces = new ArrayList<>();
         for (Piece p : other.gamePieces) {
             this.gamePieces.add(new Piece(p));
+            if(p.getPieceName().equals("P")) {
+                this.main_car = new Piece(p);
+            }
         }
+        
+        this.main_car_idx = other.main_car_idx;
+        this.grid = other.grid;
     }
 
     public void movePiece(Piece piece, Direction dir) {
@@ -201,20 +207,34 @@ public class Board {
 
     public void placePieces() {
         for (Piece piece : gamePieces) {
-            int x = piece.getRow();
-            int y = piece.getCol();
+            int anchor_row = piece.getRow();
+            int anchor_col = piece.getCol();
 
-            if(x >= row_size || x < 0 || y >= column_size || y < 0) {
+            System.err.println(piece.getPieceName() + " " + Integer.toString(anchor_row) + " " + Integer.toString(anchor_col));
+            if(anchor_row >= row_size || anchor_row < 0 || anchor_col >= column_size || anchor_col < 0) {
                 throw new IllegalArgumentException("Ada piece di luar papan");
+            }
+
+            if(piece.getisVertical() && (anchor_row + piece.getSize() > row_size)) {
+                throw new IllegalArgumentException("Vertical piece extends off the board");
+            }
+            if(!piece.getisVertical() && (anchor_col + piece.getSize() > column_size)) {
+                throw new IllegalArgumentException("Horizontal piece extends off the board");
             }
 
             if(piece.getisVertical()) {
                 for (int i = 0; i < piece.getSize(); i++) {
-                    grid[x + i][y] = piece;
+                    if(grid[anchor_row + i][anchor_col] != null) {
+                        throw new IllegalStateException("Position is already occupied");
+                    }
+                    grid[anchor_row + i][anchor_col] = piece;
                 }
             } else {
                 for (int i = 0; i < piece.getSize(); i++) {
-                    grid[x][y + i] = piece;
+                    if(grid[anchor_row][anchor_col + i] != null) {
+                        throw new IllegalStateException("Position is already occupied");
+                    }
+                    grid[anchor_row][anchor_col + i] = piece;
                 }
             }
         }
@@ -271,12 +291,12 @@ public class Board {
                 if(anchor_col > 0 && grid[anchor_row][anchor_col - 1] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
-                    newPiece.setRow(newPiece.getCol() - 1);
+                    newPiece.setCol(newPiece.getCol() - 1);
                     possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kiri));
                 } else if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
-                    newPiece.setRow(newPiece.getRow() + 1);
+                    newPiece.setCol(newPiece.getCol() + 1);
                     possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kanan));
                 }
             }
@@ -403,9 +423,14 @@ public class Board {
         return gamePieces;
     }
 
-    public Piece[][] getGrid() {
+    public Piece[][] getGridConfig() {
+        try{
         placePieces();
         return grid;
+        }
+        finally {
+            clearBoard();
+        }
     }
 
 }

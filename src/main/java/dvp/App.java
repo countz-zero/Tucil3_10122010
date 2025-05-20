@@ -252,11 +252,9 @@ public class App
         game.method = scanner.nextLine();
         scanner.close();
 
-        System.out.println(game.method);
-
         solveMain(game.board, game.method);
         System.out.println("Initial state:");
-        game.board.displayBoard();
+        System.out.println(game.board.displayBoard());
         
         // Solve the puzzle
         List<SearchNode> solution = solveMain(game.board, game.method);

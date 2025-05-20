@@ -28,7 +28,7 @@ public class Piece {
         this.row = other.row;
         this.col = other.col;
         this.height = other.height;
-        this.row = other.row;
+        this.width = other.width;
         this.size = other.size;
         this.isVertical = other.isVertical;
     }
