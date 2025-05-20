@@ -42,10 +42,8 @@ public class AppTest
         ArrayList<String> lines = App.readAllLines("src\\test\\resources\\inputtest.txt");
         game.getPieces(4, 3, 2, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(4, 3, game.gamePiece, game.exit_location);
-        ArrayList<Move> testSuccMoves = game.board.generateSuccessor();
-        for (Move m : testSuccMoves) {
-            System.out.println(m.getResultState().displayBoard());
-        }
+
+        
     }
 
 }

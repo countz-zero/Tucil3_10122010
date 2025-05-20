@@ -8,21 +8,45 @@ public class SearchNode implements Comparable<SearchNode>{
     private String moveDescription;
     private int gScore;
     private int fScore;
+    private String method;
 
-    public SearchNode(Board state) {
+    public SearchNode(Board state, String method) {
         this.state = state;
         this.parent = null;
         this.moveDescription = "Initial state";
-        this.gScore = 0;
-        this.fScore = calculateHeuristic();
+        this.method = method;
+        if(method.equals("G")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else if(method.equals("U")) {
+            this.gScore = 0;
+            this.fScore = 0;
+        } else if(method.equals("A")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else {
+            throw new IllegalArgumentException("Invalid method");
+        }
     }
 
     public SearchNode(Board state, SearchNode parent, String moveDescription) {
         this.state = state;
         this.parent = parent;
         this.moveDescription = moveDescription;
-        this.gScore = parent.gScore + 1;
-        this.fScore = this.gScore + calculateHeuristic();
+        this.method = parent.method;
+
+        if(method.equals("G")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else if(method.equals("U")) {
+            this.gScore = parent.gScore + 1;
+            this.fScore = parent.gScore + 1;
+        } else if(method.equals("A")) {
+            this.gScore = parent.gScore + 1;
+            this.fScore = this.gScore + calculateHeuristic();
+        } else {
+            throw new IllegalArgumentException("Invalid method");
+        }
     }
 
     public int calculateHeuristic() {

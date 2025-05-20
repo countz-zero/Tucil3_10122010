@@ -98,7 +98,7 @@ public class Piece {
     }
 
     public void setCol(int newCol) {
-        row  = newCol;
+        col  = newCol;
     }
 
     public void incHeight() {

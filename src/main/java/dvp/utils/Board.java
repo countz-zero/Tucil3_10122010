@@ -210,7 +210,7 @@ public class Board {
             int anchor_row = piece.getRow();
             int anchor_col = piece.getCol();
 
-            System.err.println(piece.getPieceName() + " " + Integer.toString(anchor_row) + " " + Integer.toString(anchor_col));
+            System.out.println(piece.getPieceName() + " " + Integer.toString(anchor_row) + " " + Integer.toString(anchor_col) );
             if(anchor_row >= row_size || anchor_row < 0 || anchor_col >= column_size || anchor_col < 0) {
                 throw new IllegalArgumentException("Ada piece di luar papan");
             }
@@ -263,7 +263,7 @@ public class Board {
                 isWin =  true;
             }
         }
-
+        System.out.println(isWin? "Win!" : "Nah");
         return isWin;
     }
 
@@ -281,19 +281,19 @@ public class Board {
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() - 1);
                     possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Atas));
-                } else if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
+                } if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() + 1);
                     possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Bawah));
                 }
-            } else if(!p.getisVertical()) {
+            } else {
                 if(anchor_col > 0 && grid[anchor_row][anchor_col - 1] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setCol(newPiece.getCol() - 1);
                     possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kiri));
-                } else if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
+                } if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setCol(newPiece.getCol() + 1);
@@ -302,6 +302,7 @@ public class Board {
             }
         }
 
+        clearBoard();
         return possibleMoves;
     } 
 
@@ -423,14 +424,20 @@ public class Board {
         return gamePieces;
     }
 
+    private Piece[][] deepCopyGrid(Piece[][] original) {
+    if (original == null) return null;
+    Piece[][] copy = new Piece[original.length][];
+    for (int i = 0; i < original.length; i++) {
+        copy[i] = original[i].clone();
+    }
+    return copy;
+}
+
     public Piece[][] getGridConfig() {
-        try{
         placePieces();
-        return grid;
-        }
-        finally {
-            clearBoard();
-        }
+        Piece[][] result = deepCopyGrid(grid);
+        clearBoard();
+        return result;
     }
 
 }
