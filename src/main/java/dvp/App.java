@@ -226,7 +226,9 @@ public class App
                 if (i > 0) {
                     sb.append("Gerakan " + i + ": " + node.getMoveDesc() + "\n");
                 }
-                sb.append(node.getState().displayBoard());
+
+                String piece_name = Character.toString(node.getMoveDesc().charAt(0));
+                sb.append(node.getState().displayBoard(piece_name));
             }
         }
 

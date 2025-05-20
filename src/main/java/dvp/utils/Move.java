@@ -4,10 +4,12 @@ public class Move {
     Board resultState;
     String piece_name;
     Direction dir;
+    int piece_id;
     String moveDescription;
     
-    public Move(Board resultState, String piece_name, Direction dir) {
+    public Move(Board resultState, int piece_id, String piece_name, Direction dir) {
         this.resultState = resultState;
+        this.piece_id = piece_id;
         this.piece_name = piece_name;
         this.dir = dir;
         this.moveDescription = piece_name + "-" + dir.toString();
@@ -27,5 +29,9 @@ public class Move {
 
     public String getMoveDesc() {
         return moveDescription;
+    }
+
+    public int getPieceId() {
+        return piece_id;
     }
 }

@@ -142,5 +142,4 @@ public class SearchNode implements Comparable<SearchNode>{
     public int getFScore() {
         return fScore;
     }
-    
 }
