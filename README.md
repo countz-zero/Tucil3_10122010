@@ -16,8 +16,7 @@ Cara mengkompilasi dan menjalankan program :
 1. Download source file
 2. Di Terminal Command Prompt, pergi ke lokasi folder `rush-hour-solver` dengan perintah `cd`
 {Ini entar diganti}
-4. Jalankan `{untuk compile}`
-5. Jalankan `{untuk execute}`
+4. Jalankan `mvn compile`
 
 
 Cara Menggunakan Program : 
@@ -46,9 +45,9 @@ Cara Menggunakan Program :
    dimana K menyimbolkan tempat keluar untuk mobil utama P yang ingin dikeluarkan.
 3. Namakan file txt tersebut `input.txt` 
    
-4. Jalankan program dengan `mvn {sesuatu}`
+4. Jalankan program dengan `mvn exec:java`
 5. Masukkan kode metode heuristics yang diinginkan sesuai yang tertera di terminal. (`G` untuk Greedy Best First Search, `U` untuk Uniform Cost Search, `A` untuk A*)
-6. Output akan dihasilkan di terminal dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
+6. Output akan dihasilkan di terminal dan file txt `output.txt` di folder `resources` dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
 
 
    
