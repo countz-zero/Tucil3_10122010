@@ -1,0 +1,39 @@
+Solusi ditemukan pada 4 gerakan: 
+Papan Awal
+K    
+AA.
+BB.
+P..
+P..
+
+Gerakan 1: A-Kanan
+K    
+.AA
+BB.
+P..
+P..
+
+Gerakan 2: B-Kanan
+K    
+.AA
+.BB
+P..
+P..
+
+Gerakan 3: P-Atas
+K    
+.AA
+PBB
+P..
+...
+
+Gerakan 4: P-Atas
+K    
+PAA
+PBB
+...
+...
+
+
+Waktu yang dibutuhkan : 0 ms
+Banyak simpul yang dikunjungi : 8

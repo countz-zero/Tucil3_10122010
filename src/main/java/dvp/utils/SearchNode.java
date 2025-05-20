@@ -8,21 +8,45 @@ public class SearchNode implements Comparable<SearchNode>{
     private String moveDescription;
     private int gScore;
     private int fScore;
+    private String method;
 
-    public SearchNode(Board state) {
+    public SearchNode(Board state, String method) {
         this.state = state;
         this.parent = null;
         this.moveDescription = "Initial state";
-        this.gScore = 0;
-        this.fScore = calculateHeuristic();
+        this.method = method;
+        if(method.equals("G")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else if(method.equals("U")) {
+            this.gScore = 0;
+            this.fScore = 0;
+        } else if(method.equals("A")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else {
+            throw new IllegalArgumentException("Invalid method");
+        }
     }
 
     public SearchNode(Board state, SearchNode parent, String moveDescription) {
         this.state = state;
         this.parent = parent;
         this.moveDescription = moveDescription;
-        this.gScore = parent.gScore + 1;
-        this.fScore = this.gScore + calculateHeuristic();
+        this.method = parent.method;
+
+        if(method.equals("G")) {
+            this.gScore = 0;
+            this.fScore = calculateHeuristic();
+        } else if(method.equals("U")) {
+            this.gScore = parent.gScore + 1;
+            this.fScore = parent.gScore + 1;
+        } else if(method.equals("A")) {
+            this.gScore = parent.gScore + 1;
+            this.fScore = this.gScore + calculateHeuristic();
+        } else {
+            throw new IllegalArgumentException("Invalid method");
+        }
     }
 
     public int calculateHeuristic() {
@@ -32,7 +56,7 @@ public class SearchNode implements Comparable<SearchNode>{
         int distanceToExit = 0;
         int posAfterPiece = 0;
         int blockingVehicles = 0;
-        Piece[][] grid = state.getGrid();
+        Piece[][] grid = state.getGridConfig();
 
         switch (state.getExitLocationOrientation()) {
             //Asumsi pas sudah menang, tidak dicek lagi heuristiknya
@@ -70,7 +94,7 @@ public class SearchNode implements Comparable<SearchNode>{
             case 4:
             distanceToExit = state.getColSize() - (main_piece.getCol() + main_piece.getSize());
             posAfterPiece = main_piece.getCol() + main_piece.getSize();
-            for (int c = posAfterPiece; c < state.getColSize(); c--) {
+            for (int c = posAfterPiece; c < state.getColSize(); c++) {
                 if (grid[main_piece.getRow()][c] != null) {
                     blockingVehicles++;
                 }
@@ -78,7 +102,7 @@ public class SearchNode implements Comparable<SearchNode>{
             break;
         }
         // Return the combined heuristic
-        return distanceToExit + blockingVehicles * 2;
+        return distanceToExit + blockingVehicles;
     }
 
     @Override
@@ -118,5 +142,4 @@ public class SearchNode implements Comparable<SearchNode>{
     public int getFScore() {
         return fScore;
     }
-    
 }

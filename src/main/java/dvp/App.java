@@ -1,10 +1,9 @@
 package dvp;
 import dvp.utils.*;
 
-import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 
 /**
@@ -26,8 +24,8 @@ public class App
     int[] dimension = {0, 0};
     Board board;
     ArrayList<Piece> gamePiece = new ArrayList<Piece>();
-    static final String filePath = "src\\main\\resources\\input.txt";
     String method;
+    int nodeCount;
     
 
     public static ArrayList<String> readAllLines(String filePath) {
@@ -38,9 +36,9 @@ public class App
                 lines.add(line);
             }
 
-            System.out.println("File input terbaca");
+            System.out.println(String.format("File input di %s terbaca", filePath));
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.err.println("Error membaca file: " + e.getMessage());
         }
 
         return lines;
@@ -59,7 +57,7 @@ public class App
                 throw new IllegalArgumentException("Ada kesalahan di formatting input");
             }
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing values in line " + line);
+            System.err.println("Error membaca input di baris : " + line);
         }
         return boardSizeInput;
     }
@@ -70,7 +68,7 @@ public class App
             // Split the line by whitespace or comma (adjust delimiter as needed)
             N = Integer.parseInt(line.trim());
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing values in line " + line);
+            System.err.println("Error membaca input di baris : " + line);
         }
 
         return N;
@@ -163,31 +161,25 @@ public class App
         }
     }
 
-    public static List<SearchNode> solveGreedy(Board initialState) {
-        return null;
-    } 
-
-    public static List<SearchNode> solveUCS(Board initialState) {
-        return null;
-    }
-    
-    public static List<SearchNode> solveAStar(Board initialState) {
+    public List<SearchNode> solve(Board initialState, String method) {
         PriorityQueue<SearchNode> openSet = new PriorityQueue<>();
         Set<String> closedSet = new HashSet<>();
         
-        SearchNode startNode = new SearchNode(initialState);
+        SearchNode startNode = new SearchNode(initialState, method);
 
         openSet.add(startNode);
         while(!openSet.isEmpty()) {
             SearchNode current = openSet.poll();
+            nodeCount++;
+
+            String boardStr = current.getState().displayBoard();
+
+            if(closedSet.contains(boardStr)) {
+                continue;
+            }
 
             if(current.getState().isWinState()) {
                 return reconstructPath(current);
-            }
-
-            String boardStr = current.getState().displayBoard();
-            if(closedSet.contains(boardStr)) {
-                continue;
             }
 
             closedSet.add(boardStr);
@@ -217,26 +209,42 @@ public class App
         return path;
     }
 
-    public static List<SearchNode> solveMain(Board board, String method) {
-        if (method.equals("G")) {
-            return solveGreedy(board);
-        } else if (method.equals("U")) {
-            return solveUCS(board);
-        } else if (method.equals("A")){
-            return solveAStar(board);
+    public static String printSolution(List<SearchNode> solution, boolean isWithColor) {
+        StringBuilder sb = new StringBuilder("");
+        if (solution.isEmpty()) {
+            sb.append("Tidak ada solusi yang ditemukan!");
         } else {
-            throw new IllegalArgumentException("Kode metode tidak valid");
-        }
-    }
+            sb.append("Solusi ditemukan pada " + (solution.size() -1) + " gerakan: \n");
+            sb.append("Papan Awal\n");
+            for (int i = 0; i < solution.size(); i++) {
+                SearchNode node = solution.get(i);
+                if (i > 0) {
+                    sb.append("Gerakan " + i + ": " + node.getMoveDesc() + "\n");
+                }
 
-    public void printStep(Board board, int step, Piece piece, Direction dir) {
-        System.out.println(String.format("Gerakan %d : %s-%s", step, piece.getPieceName(), dir.toString()));
-        board.displayBoard(piece);
+                String piece_name = Character.toString(node.getMoveDesc().charAt(0));
+                if(isWithColor) {
+                    sb.append(node.getState().displayBoard(piece_name));
+                } else {
+                    sb.append(node.getState().displayBoardNoColor());
+                    sb.append("\n");
+                }
+            }
+
+            Board last_config = solution.get(solution.size() - 1).getState();
+        }
+
+        return sb.toString();
     }
 
     public static void main( String[] args ) {
+        System.out.println("Masukkan nama file txt yang dijadikan input (pakai .txt di akhir)");
+        Scanner scanner = new Scanner(System.in);
+        String inputName = scanner.nextLine();
+        String filePath = "test\\" + inputName;
+
         App game = new App();
-        ArrayList<String> lines = readAllLines(App.filePath);
+        ArrayList<String> lines = readAllLines(filePath);
         int[] dimension = getBoardSizeInput(lines.get(0));
         game.dimension = dimension;
         game.A = dimension[0];
@@ -246,35 +254,48 @@ public class App
         game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(2, lines.size())));
         game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Pilih algoritma yang ingit digunakan");
         System.out.println("Greedy Best First Search (G) | USC (U) | A-Star (A)");
         game.method = scanner.nextLine();
         scanner.close();
 
-        System.out.println(game.method);
-
-        solveMain(game.board, game.method);
         System.out.println("Initial state:");
-        game.board.displayBoard();
+        System.out.println(game.board.displayBoard());
         
         // Solve the puzzle
-        List<SearchNode> solution = solveMain(game.board, game.method);
+        long startTime = System.currentTimeMillis();
+        List<SearchNode> solution = game.solve(game.board, game.method);
+        long endTime = System.currentTimeMillis();
+
+        long timeElapsed = endTime - startTime;
+        System.out.println(printSolution(solution, true));
+        System.out.println("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
+        System.out.println("Banyak simpul yang dikunjungi : " + game.nodeCount);
         
-        if (solution.isEmpty()) {
-            System.out.println("No solution found!");
-        } else {
-            System.out.println("Solution found in " + (solution.size() - 1) + " moves:");
+        // if (solution.isEmpty()) {
+        //     System.out.println("No solution found!");
+        // } else {
+        //     System.out.println("Solution found in " + (solution.size() - 1) + " moves:");
             
-            for (int i = 0; i < solution.size(); i++) {
-                SearchNode node = solution.get(i);
-                if (i > 0) {
-                    System.out.println("Step " + i + ": " + node.getMoveDesc());
-                }
-                node.getState().displayBoard();
-            }
+        //     for (int i = 0; i < solution.size(); i++) {
+        //         SearchNode node = solution.get(i);
+        //         if (i > 0) {
+        //             System.out.println("Step " + i + ": " + node.getMoveDesc());
+        //         }
+        //         node.getState().displayBoard();
+        //     }
+        // }
+
+        try {
+            FileWriter writer = new FileWriter("test\\output.txt");
+            writer.write(printSolution(solution, false) + "\n");
+            writer.write("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
+            writer.write("Banyak simpul yang dikunjungi : " + game.nodeCount);
+            writer.close(); // Always close the writer
+            System.out.println("Solusi ditulis ke solution.txt di folder test");
+        } catch (IOException e) {
+            System.out.println("Ada error menulis solusi ke file text.");
+            e.printStackTrace();
         }
     }
-
-    
 }

@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class Board {
-    //TODO Gimana kalo piece pake hashmap
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -13,7 +12,7 @@ public class Board {
 
     private final int row_size;
     private final int column_size;
-    private Piece[][] grid;
+    private Piece[][] grid = null;
     private int[] exit_location; // Koordinat 0 = posisinya, koordinat 1 == angka barisannya. 1 == Atas, mutar lawan jarum jam
     private Piece main_car;
     private int main_car_idx;
@@ -50,65 +49,13 @@ public class Board {
         this.gamePieces = new ArrayList<>();
         for (Piece p : other.gamePieces) {
             this.gamePieces.add(new Piece(p));
-        }
-    }
-
-    public void movePiece(Piece piece, Direction dir) {
-        placePieces();
-        int anchor_row = piece.getRow();
-        int anchor_col = piece.getCol();
-        int len = piece.getSize();
-
-        if (piece.getisVertical()) {
-            if (!(dir == Direction.Atas || dir == Direction.Bawah)) {
-                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
-            }
-        } else {
-            if (!(dir == Direction.Kiri || dir == Direction.Kanan)) {
-                throw new IllegalArgumentException("Tidak bisa dilakukan karena orientasi");
+            if(p.getPieceName().equals("P")) {
+                this.main_car = new Piece(p);
             }
         }
-
-        switch (dir) {
-            case Atas:
-                if(anchor_row == 0) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row - 1][anchor_col] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setRow(anchor_row - 1);
-                break;
-            case Bawah:
-                if(anchor_row + len == row_size) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row + len][anchor_col] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setRow(anchor_row + 1);
-                break;
-            case Kiri:
-                if(anchor_col == 0) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row][anchor_col - 1] != null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setCol(anchor_col - 1);
-                break;
-            case Kanan:
-                if(anchor_col + len == column_size) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena blok sudah di pinggir");
-                } else if (grid[anchor_row][anchor_col + len] == null) {
-                    throw new IllegalArgumentException("Gerakan tidak bisa dilakukan karena ada blok lain");
-                }
-
-                piece.setCol(anchor_col + 1);
-                break;
-        }
-
-        clearBoard();
+        
+        this.main_car_idx = other.main_car_idx;
+        this.grid = other.grid;
     }
 
     public String displayBoard() {
@@ -154,7 +101,50 @@ public class Board {
         return sb.toString();
     }
 
-    public String displayBoard(Piece piece) {
+    public String displayBoardNoColor() {
+        StringBuilder sb = new StringBuilder();
+        placePieces();
+        if(exit_location[0] == 1) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            sb.append(gate + "\n");
+        }
+
+        for (int i = 0; i < row_size; i++) {
+            for(int j = 0; j < column_size; j++) {
+                if(j == 0 && exit_location[0] == 2 && i == exit_location[1]) {
+                    sb.append("K");
+                } else if (j == 0 && exit_location[0] == 2) {
+                    sb.append(" ");
+                }
+
+                if (grid[i][j] == null) {
+                    sb.append(".");
+                } else if(grid[i][j].getPieceName().equals("P")) {
+                    sb.append("P");
+                } else {
+                    sb.append(grid[i][j].getPieceName());   
+                }
+
+                if(j == column_size - 1 && exit_location[0] == 4 && i == exit_location[1]) {
+                    sb.append("K");
+                } else if (j == column_size - 1 && exit_location[0] == 4) {
+                   sb.append(" ");
+                }
+            }
+
+            sb.append("\n");
+        }
+
+        if(exit_location[0] == 3) {
+            String gate = " ".repeat(exit_location[1]) + "K" + " ".repeat(column_size - exit_location[1] + 1);
+            sb.append(gate);
+        }
+
+        clearBoard();
+        return sb.toString();
+    }
+
+    public String displayBoard(String piece_name) {
         StringBuilder sb = new StringBuilder();
         placePieces();
         if(exit_location[0] == 1) {
@@ -174,7 +164,7 @@ public class Board {
                     sb.append(".");
                 } else if(grid[i][j].getPieceName().equals("P")) {
                     sb.append(RED + "P" + RESET);
-                } else if (grid[i][j].getPieceName().equals(piece.getPieceName())){
+                } else if (grid[i][j].getPieceName().equals(piece_name)){
                     sb.append(BLUE + grid[i][j].getPieceName() + RESET);
                 } else{
                     sb.append(grid[i][j].getPieceName());   
@@ -192,7 +182,7 @@ public class Board {
 
         if(exit_location[0] == 3) {
             String gate = " ".repeat(exit_location[1]) + GREEN + "K" + RESET + " ".repeat(column_size - exit_location[1] + 1);
-            sb.append(gate);
+            sb.append(gate + "\n");
         }
 
         clearBoard();
@@ -201,20 +191,33 @@ public class Board {
 
     public void placePieces() {
         for (Piece piece : gamePieces) {
-            int x = piece.getRow();
-            int y = piece.getCol();
+            int anchor_row = piece.getRow();
+            int anchor_col = piece.getCol();
 
-            if(x >= row_size || x < 0 || y >= column_size || y < 0) {
+            if(anchor_row >= row_size || anchor_row < 0 || anchor_col >= column_size || anchor_col < 0) {
                 throw new IllegalArgumentException("Ada piece di luar papan");
+            }
+
+            if(piece.getisVertical() && (anchor_row + piece.getSize() > row_size)) {
+                throw new IllegalArgumentException("Vertical piece extends off the board");
+            }
+            if(!piece.getisVertical() && (anchor_col + piece.getSize() > column_size)) {
+                throw new IllegalArgumentException("Horizontal piece extends off the board");
             }
 
             if(piece.getisVertical()) {
                 for (int i = 0; i < piece.getSize(); i++) {
-                    grid[x + i][y] = piece;
+                    if(grid[anchor_row + i][anchor_col] != null) {
+                        throw new IllegalStateException("Position sudah diisi");
+                    }
+                    grid[anchor_row + i][anchor_col] = piece;
                 }
             } else {
                 for (int i = 0; i < piece.getSize(); i++) {
-                    grid[x][y + i] = piece;
+                    if(grid[anchor_row][anchor_col + i] != null) {
+                        throw new IllegalStateException("Posisi sudah diisi");
+                    }
+                    grid[anchor_row][anchor_col + i] = piece;
                 }
             }
         }
@@ -222,6 +225,7 @@ public class Board {
 
     public boolean isWinState() {
         boolean isWin = false;
+        Piece main_car = gamePieces.get(main_car_idx);
         switch (exit_location[0]) {
             case 1:
             if (main_car.getRow() == 0) {
@@ -243,7 +247,7 @@ public class Board {
                 isWin =  true;
             }
         }
-
+ 
         return isWin;
     }
 
@@ -260,28 +264,29 @@ public class Board {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() - 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Atas));
-                } else if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
+                    possibleMoves.add(new Move(newState, i, newPiece.getPieceName(), Direction.Atas));
+                } if(anchor_row + size < row_size  && grid[anchor_row + size][anchor_col] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
                     newPiece.setRow(newPiece.getRow() + 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Bawah));
+                    possibleMoves.add(new Move(newState, i, newPiece.getPieceName(), Direction.Bawah));
                 }
-            } else if(!p.getisVertical()) {
+            } else {
                 if(anchor_col > 0 && grid[anchor_row][anchor_col - 1] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
-                    newPiece.setRow(newPiece.getCol() - 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kiri));
-                } else if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
+                    newPiece.setCol(newPiece.getCol() - 1);
+                    possibleMoves.add(new Move(newState, i, newPiece.getPieceName(), Direction.Kiri));
+                } if(anchor_col + size < column_size  && grid[anchor_row][anchor_col + size] == null) {
                     Board newState = new Board(this);
                     Piece newPiece = newState.gamePieces.get(i);
-                    newPiece.setRow(newPiece.getRow() + 1);
-                    possibleMoves.add(new Move(newState, newPiece.getPieceName(), Direction.Kanan));
+                    newPiece.setCol(newPiece.getCol() + 1);
+                    possibleMoves.add(new Move(newState, i, newPiece.getPieceName(), Direction.Kanan));
                 }
             }
         }
 
+        clearBoard();
         return possibleMoves;
     } 
 
@@ -403,9 +408,20 @@ public class Board {
         return gamePieces;
     }
 
-    public Piece[][] getGrid() {
+    private Piece[][] deepCopyGrid(Piece[][] original) {
+    if (original == null) return null;
+    Piece[][] copy = new Piece[original.length][];
+    for (int i = 0; i < original.length; i++) {
+        copy[i] = original[i].clone();
+    }
+    return copy;
+}
+
+    public Piece[][] getGridConfig() {
         placePieces();
-        return grid;
+        Piece[][] result = deepCopyGrid(grid);
+        clearBoard();
+        return result;
     }
 
 }

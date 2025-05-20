@@ -3,7 +3,6 @@ package dvp.utils;
 import java.util.Objects;
 
 public class Piece {
-    //TODO GIMANA KALO PIECE PAKE HASHMAP, ARRAYLISTNYA BIAR ENAK NYARINYA
     private final String piece_name;
     private int height = 1;
     private int width = 1;
@@ -28,7 +27,7 @@ public class Piece {
         this.row = other.row;
         this.col = other.col;
         this.height = other.height;
-        this.row = other.row;
+        this.width = other.width;
         this.size = other.size;
         this.isVertical = other.isVertical;
     }
@@ -98,7 +97,7 @@ public class Piece {
     }
 
     public void setCol(int newCol) {
-        row  = newCol;
+        col  = newCol;
     }
 
     public void incHeight() {
@@ -109,5 +108,15 @@ public class Piece {
     public void incWidth() {
         width += 1;
         size += 1;
+    }
+
+    public void decHeight() {
+        height -= 1;
+        size -= 1;
+    }
+
+    public void decWidth() {
+        width -= 1;
+        size -= 1;
     }
 }
