@@ -6,7 +6,7 @@ Program ini adalah solver untuk puzzle Rush Hour dengan menggunakan algoritma pa
 
 Pengguna akan dapat memilih algoritma yang ingin digunakan untuk mencari solusi dari sebuah konfigurasi papan permainan Rush Hour.
 
-Requirement : 
+## Requirement 
 * Java 23 atau lebih tinggi
 * Maven Wrapper disediakan untuk menjalankan Maven sehingga tidak perlu menginstall Maven, namun untuk info tambahan, kita menggunakan Apache Maven 3.9.9
 
