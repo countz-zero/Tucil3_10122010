@@ -65,7 +65,6 @@ public class App
     public static int getNumOfPieces(String line) {
         int N = 0;
         try {
-            // Split the line by whitespace or comma (adjust delimiter as needed)
             N = Integer.parseInt(line.trim());
         } catch (NumberFormatException e) {
             System.err.println("Error membaca input di baris : " + line);
@@ -80,11 +79,6 @@ public class App
         if(!((lines_row == A && lines_col == B + 1) || (lines_row == A + 1 && lines_col == B))) {
             throw new IllegalArgumentException("Input di txt tidak sesuai");
         } else if ((lines_row == A + 1 && lines_col == B)) {
-            //AAP
-            //BBP
-            //...
-            //  K
-
             String firstLine = lines.get(0);
             String lastLine = lines.get(lines.size() - 1);
             if (firstLine.trim().equals("K")) {
@@ -97,15 +91,10 @@ public class App
                 lines.remove(lines.size() - 1);
             } 
 
-            //AAP
-            //BBP
-            //...
-
             Set<String> nameTags = new HashSet<String>();
             String letter = "";
             for(int i = 0; i < A; i++) {
                 for(int j = 0; j < B; j++) {
-                    // System.out.println(Integer.toString(i) + " " + Integer.toString(j));
                     letter = Character.toString(lines.get(i).charAt(j));
 
                     if(letter.equals(".")) {
@@ -125,39 +114,60 @@ public class App
             }
 
         } else if (lines_row == A && lines_col == B + 1) {
-            //0123
-            //
-            //KPPB
-            // AAB
-            // ...
-
             Set<String> nameTags = new HashSet<String>();
             String letter = "";
-            for(int i = 0; i < A; i++) {
-                for(int j = -1; j < B; j++) {
-                    letter = Character.toString(lines.get(i).charAt(j+1));
-                    if (letter.equals(" ") || letter.equals(".")) {
-                        continue;
-                    } else if (letter.equals("K") && j == -1) {
-                        exit_location[0] = 2;
-                        exit_location[1] = i;
-                    } else if (letter.equals("K") && j == B - 1) {
-                        exit_location[0] = 4;
-                        exit_location[1] = i;
-                    } else if(!nameTags.contains(letter)) {
-                        nameTags.add(letter);
-                        Piece piece = new Piece(letter, i, j);
-                        gamePiece.add(piece);
-                    } else if(nameTags.contains(letter)) {
-                        for(Piece piece : gamePiece) {
-                            if(piece.getPieceName().equals(letter)) {
-                                piece.addPosition(i, j);
+            String firstLetter = Character.toString(lines.get(0).charAt(0));
+            String lastLetter = Character.toString(lines.get(0).charAt(B));
+
+            if(firstLetter.equals(" ") || firstLetter.equals("K")) {
+                for(int i = 0; i < A; i++) {
+                    for(int j = -1; j < B; j++) {
+                        letter = Character.toString(lines.get(i).charAt(j+1));
+                        if (letter.equals(" ") || letter.equals(".")) {
+                            continue;
+                        } else if (letter.equals("K") && j == -1) {
+                            exit_location[0] = 2;
+                            exit_location[1] = i;
+                        } else if(!nameTags.contains(letter)) {
+                            nameTags.add(letter);
+                            Piece piece = new Piece(letter, i, j);
+                            gamePiece.add(piece);
+                        } else if(nameTags.contains(letter)) {
+                            for(Piece piece : gamePiece) {
+                                if(piece.getPieceName().equals(letter)) {
+                                    piece.addPosition(i, j);
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
+            } else if (lastLetter.equals(" ") || lastLetter.equals("K")) {
+                for(int i = 0; i < A; i++) {
+                    for(int j = 0; j <= B; j++) {
+                        letter = Character.toString(lines.get(i).charAt(j));
+                        if (letter.equals(" ") || letter.equals(".")) {
+                            continue;
+                        } else if (letter.equals("K") && j == B) {
+                            exit_location[0] = 4;
+                            exit_location[1] = i;
+                        } else if(!nameTags.contains(letter)) {
+                            nameTags.add(letter);
+                            Piece piece = new Piece(letter, i, j);
+                            gamePiece.add(piece);
+                        } else if(nameTags.contains(letter)) {
+                            for(Piece piece : gamePiece) {
+                                if(piece.getPieceName().equals(letter)) {
+                                    piece.addPosition(i, j);
+                                }
+                            }
+                        }
+
+                    }
+                }
+
             }
+            
         }
     }
 
@@ -215,23 +225,17 @@ public class App
             sb.append("Tidak ada solusi yang ditemukan!");
         } else {
             sb.append("Solusi ditemukan pada " + (solution.size() -1) + " gerakan: \n");
-            sb.append("Papan Awal\n");
-            for (int i = 0; i < solution.size(); i++) {
+            for (int i = 1; i < solution.size(); i++) {
                 SearchNode node = solution.get(i);
-                if (i > 0) {
                     sb.append("Gerakan " + i + ": " + node.getMoveDesc() + "\n");
-                }
-
-                String piece_name = Character.toString(node.getMoveDesc().charAt(0));
-                if(isWithColor) {
-                    sb.append(node.getState().displayBoard(piece_name));
-                } else {
-                    sb.append(node.getState().displayBoardNoColor());
-                    sb.append("\n");
-                }
+                    String piece_name = Character.toString(node.getMoveDesc().charAt(0));
+                    if(isWithColor) {
+                        sb.append(node.getState().displayBoard(piece_name));
+                    } else {
+                        sb.append(node.getState().displayBoardNoColor());
+                        sb.append("\n");
+                    }
             }
-
-            Board last_config = solution.get(solution.size() - 1).getState();
         }
 
         return sb.toString();
@@ -252,6 +256,9 @@ public class App
 
         game.N = getNumOfPieces(lines.get(1));
         game.getPieces(game.A, game.B, game.N, new ArrayList<>(lines.subList(2, lines.size())));
+        for(Piece p : game.gamePiece) {
+            System.out.println(p.getPieceName() + " " + p.getRow() + " " + p.getCol());
+        }
         game.board = new Board(game.A, game.B, game.gamePiece, game.exit_location);
 
         System.out.println("Pilih algoritma yang ingit digunakan");
@@ -262,7 +269,6 @@ public class App
         System.out.println("Initial state:");
         System.out.println(game.board.displayBoard());
         
-        // Solve the puzzle
         long startTime = System.currentTimeMillis();
         List<SearchNode> solution = game.solve(game.board, game.method);
         long endTime = System.currentTimeMillis();
@@ -272,20 +278,6 @@ public class App
         System.out.println("Waktu yang dibutuhkan : " + timeElapsed + " ms\n");
         System.out.println("Banyak simpul yang dikunjungi : " + game.nodeCount);
         
-        // if (solution.isEmpty()) {
-        //     System.out.println("No solution found!");
-        // } else {
-        //     System.out.println("Solution found in " + (solution.size() - 1) + " moves:");
-            
-        //     for (int i = 0; i < solution.size(); i++) {
-        //         SearchNode node = solution.get(i);
-        //         if (i > 0) {
-        //             System.out.println("Step " + i + ": " + node.getMoveDesc());
-        //         }
-        //         node.getState().displayBoard();
-        //     }
-        // }
-
         try {
             FileWriter writer = new FileWriter("test\\output.txt");
             writer.write(printSolution(solution, false) + "\n");

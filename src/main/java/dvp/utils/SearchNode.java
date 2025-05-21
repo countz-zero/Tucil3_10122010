@@ -52,7 +52,6 @@ public class SearchNode implements Comparable<SearchNode>{
     public int calculateHeuristic() {
         Piece main_piece = state.getMainPiece();
         
-        // Distance to exit
         int distanceToExit = 0;
         int posAfterPiece = 0;
         int blockingVehicles = 0;
@@ -64,7 +63,6 @@ public class SearchNode implements Comparable<SearchNode>{
             distanceToExit = main_piece.getRow();
             posAfterPiece = main_piece.getRow() - 1;
             
-            // Check each position between the target vehicle and the exit
             for (int c = posAfterPiece; c >= 0; c--) {
                 if (grid[c][main_piece.getCol()] != null) {
                     blockingVehicles++;
@@ -101,7 +99,8 @@ public class SearchNode implements Comparable<SearchNode>{
             }            
             break;
         }
-        // Return the combined heuristic
+               
+        
         return distanceToExit + blockingVehicles;
     }
 
