@@ -31,6 +31,7 @@ Pengguna akan dapat memilih algoritma yang ingin digunakan untuk mencari solusi 
 
    dimana A adalah tinggi papan, B adalah lebar papan, dan N adalah banyak blok selain mobil target lain.
    Contoh konfigurasi papan :
+   
    AAB..F
    
    ..BCDF
