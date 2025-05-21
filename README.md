@@ -67,6 +67,22 @@ Lakukan step ini :
 3. Jalankan `javac App.java`
 4. Jalankan `java App`
 
+> Kok ada error input? Padahal udah bener :(
+
+Pastikan baris atau kolom yang mengandung K harus berisi whitespace
+
+Contoh untuk : 
+
+```
+AA.
+PP.K
+BB.
+```
+
+Pastikan ada spasi setelah `AA.` dan `BB.`
+
+
+
    
 
 
