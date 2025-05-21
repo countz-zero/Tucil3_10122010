@@ -45,11 +45,10 @@ Pengguna akan dapat memilih algoritma yang ingin digunakan untuk mencari solusi 
    LLJMM.
 
    dimana K menyimbolkan tempat keluar untuk mobil utama P yang ingin dikeluarkan.
-3. Namakan file txt tersebut `input.txt` 
-   
-4. Kompilasi dan jalankan program `App.java`
+3. Namakan file txt
+4. Kompilasi dan jalankan program
 5. Masukkan nama file input dengan ekstensi `.txt`
-6. Masukkan kode metode heuristics yang diinginkan sesuai yang tertera di terminal. (`G` untuk Greedy Best First Search, `U` untuk Uniform Cost Search, `A` untuk A*)
+6. Masukkan kode metode heuristics yang diinginkan sesuai perintah yang tertera di terminal. (`G` untuk Greedy Best First Search, `U` untuk Uniform Cost Search, `A` untuk A*)
 7. Output akan dihasilkan di terminal dan file txt `output.txt` di folder `test` dengan waktu untuk menyelesaikan permainan serta format penyelesaian yang mudah dipahami.
 
 
