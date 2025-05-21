@@ -1,39 +1,620 @@
-Solusi ditemukan pada 4 gerakan: 
-Papan Awal
-K    
-AA.
-BB.
-P..
-P..
+Solusi ditemukan pada 77 gerakan: 
+Gerakan 1: B-Bawah
+AA...C 
+..B..C 
+..BPPCK
+D.BEFF 
+DGGE.. 
+...E.. 
 
-Gerakan 1: A-Kanan
-K    
-.AA
-BB.
-P..
-P..
+Gerakan 2: A-Kanan
+.AA..C 
+..B..C 
+..BPPCK
+D.BEFF 
+DGGE.. 
+...E.. 
 
-Gerakan 2: B-Kanan
-K    
-.AA
-.BB
-P..
-P..
+Gerakan 3: D-Atas
+.AA..C 
+..B..C 
+D.BPPCK
+D.BEFF 
+.GGE.. 
+...E.. 
 
-Gerakan 3: P-Atas
-K    
-.AA
-PBB
-P..
-...
+Gerakan 4: G-Kiri
+.AA..C 
+..B..C 
+D.BPPCK
+D.BEFF 
+GG.E.. 
+...E.. 
 
-Gerakan 4: P-Atas
-K    
-PAA
-PBB
-...
-...
+Gerakan 5: B-Bawah
+.AA..C 
+.....C 
+D.BPPCK
+D.BEFF 
+GGBE.. 
+...E.. 
+
+Gerakan 6: D-Atas
+.AA..C 
+D....C 
+D.BPPCK
+..BEFF 
+GGBE.. 
+...E.. 
+
+Gerakan 7: D-Atas
+DAA..C 
+D....C 
+..BPPCK
+..BEFF 
+GGBE.. 
+...E.. 
+
+Gerakan 8: B-Bawah
+DAA..C 
+D....C 
+...PPCK
+..BEFF 
+GGBE.. 
+..BE.. 
+
+Gerakan 9: P-Kiri
+DAA..C 
+D....C 
+..PP.CK
+..BEFF 
+GGBE.. 
+..BE.. 
+
+Gerakan 10: P-Kiri
+DAA..C 
+D....C 
+.PP..CK
+..BEFF 
+GGBE.. 
+..BE.. 
+
+Gerakan 11: E-Atas
+DAA..C 
+D....C 
+.PPE.CK
+..BEFF 
+GGBE.. 
+..B... 
+
+Gerakan 12: P-Kiri
+DAA..C 
+D....C 
+PP.E.CK
+..BEFF 
+GGBE.. 
+..B... 
+
+Gerakan 13: B-Atas
+DAA..C 
+D....C 
+PPBE.CK
+..BEFF 
+GGBE.. 
+...... 
+
+Gerakan 14: E-Atas
+DAA..C 
+D..E.C 
+PPBE.CK
+..BEFF 
+GGB... 
+...... 
+
+Gerakan 15: B-Atas
+DAA..C 
+D.BE.C 
+PPBE.CK
+..BEFF 
+GG.... 
+...... 
+
+Gerakan 16: G-Kanan
+DAA..C 
+D.BE.C 
+PPBE.CK
+..BEFF 
+.GG... 
+...... 
+
+Gerakan 17: G-Kanan
+DAA..C 
+D.BE.C 
+PPBE.CK
+..BEFF 
+..GG.. 
+...... 
+
+Gerakan 18: G-Kanan
+DAA..C 
+D.BE.C 
+PPBE.CK
+..BEFF 
+...GG. 
+...... 
+
+Gerakan 19: B-Bawah
+DAA..C 
+D..E.C 
+PPBE.CK
+..BEFF 
+..BGG. 
+...... 
+
+Gerakan 20: B-Bawah
+DAA..C 
+D..E.C 
+PP.E.CK
+..BEFF 
+..BGG. 
+..B... 
+
+Gerakan 21: P-Kanan
+DAA..C 
+D..E.C 
+.PPE.CK
+..BEFF 
+..BGG. 
+..B... 
+
+Gerakan 22: D-Bawah
+.AA..C 
+D..E.C 
+DPPE.CK
+..BEFF 
+..BGG. 
+..B... 
+
+Gerakan 23: D-Bawah
+.AA..C 
+...E.C 
+DPPE.CK
+D.BEFF 
+..BGG. 
+..B... 
+
+Gerakan 24: D-Bawah
+.AA..C 
+...E.C 
+.PPE.CK
+D.BEFF 
+D.BGG. 
+..B... 
+
+Gerakan 25: E-Atas
+.AAE.C 
+...E.C 
+.PPE.CK
+D.B.FF 
+D.BGG. 
+..B... 
+
+Gerakan 26: P-Kiri
+.AAE.C 
+...E.C 
+PP.E.CK
+D.B.FF 
+D.BGG. 
+..B... 
+
+Gerakan 27: B-Atas
+.AAE.C 
+...E.C 
+PPBE.CK
+D.B.FF 
+D.BGG. 
+...... 
+
+Gerakan 28: B-Atas
+.AAE.C 
+..BE.C 
+PPBE.CK
+D.B.FF 
+D..GG. 
+...... 
+
+Gerakan 29: F-Kiri
+.AAE.C 
+..BE.C 
+PPBE.CK
+D.BFF. 
+D..GG. 
+...... 
+
+Gerakan 30: A-Kiri
+AA.E.C 
+..BE.C 
+PPBE.CK
+D.BFF. 
+D..GG. 
+...... 
+
+Gerakan 31: B-Atas
+AABE.C 
+..BE.C 
+PPBE.CK
+D..FF. 
+D..GG. 
+...... 
+
+Gerakan 32: D-Bawah
+AABE.C 
+..BE.C 
+PPBE.CK
+...FF. 
+D..GG. 
+D..... 
+
+Gerakan 33: F-Kiri
+AABE.C 
+..BE.C 
+PPBE.CK
+..FF.. 
+D..GG. 
+D..... 
+
+Gerakan 34: F-Kiri
+AABE.C 
+..BE.C 
+PPBE.CK
+.FF... 
+D..GG. 
+D..... 
+
+Gerakan 35: F-Kiri
+AABE.C 
+..BE.C 
+PPBE.CK
+FF.... 
+D..GG. 
+D..... 
+
+Gerakan 36: B-Bawah
+AA.E.C 
+..BE.C 
+PPBE.CK
+FFB... 
+D..GG. 
+D..... 
+
+Gerakan 37: E-Bawah
+AA...C 
+..BE.C 
+PPBE.CK
+FFBE.. 
+D..GG. 
+D..... 
+
+Gerakan 38: A-Kanan
+.AA..C 
+..BE.C 
+PPBE.CK
+FFBE.. 
+D..GG. 
+D..... 
+
+Gerakan 39: A-Kanan
+..AA.C 
+..BE.C 
+PPBE.CK
+FFBE.. 
+D..GG. 
+D..... 
+
+Gerakan 40: C-Bawah
+..AA.. 
+..BE.C 
+PPBE.CK
+FFBE.C 
+D..GG. 
+D..... 
+
+Gerakan 41: A-Kanan
+...AA. 
+..BE.C 
+PPBE.CK
+FFBE.C 
+D..GG. 
+D..... 
+
+Gerakan 42: A-Kanan
+....AA 
+..BE.C 
+PPBE.CK
+FFBE.C 
+D..GG. 
+D..... 
+
+Gerakan 43: E-Atas
+...EAA 
+..BE.C 
+PPBE.CK
+FFB..C 
+D..GG. 
+D..... 
+
+Gerakan 44: B-Atas
+..BEAA 
+..BE.C 
+PPBE.CK
+FF...C 
+D..GG. 
+D..... 
+
+Gerakan 45: F-Kanan
+..BEAA 
+..BE.C 
+PPBE.CK
+.FF..C 
+D..GG. 
+D..... 
+
+Gerakan 46: F-Kanan
+..BEAA 
+..BE.C 
+PPBE.CK
+..FF.C 
+D..GG. 
+D..... 
+
+Gerakan 47: F-Kanan
+..BEAA 
+..BE.C 
+PPBE.CK
+...FFC 
+D..GG. 
+D..... 
+
+Gerakan 48: B-Bawah
+...EAA 
+..BE.C 
+PPBE.CK
+..BFFC 
+D..GG. 
+D..... 
+
+Gerakan 49: B-Bawah
+...EAA 
+...E.C 
+PPBE.CK
+..BFFC 
+D.BGG. 
+D..... 
+
+Gerakan 50: B-Bawah
+...EAA 
+...E.C 
+PP.E.CK
+..BFFC 
+D.BGG. 
+D.B... 
+
+Gerakan 51: P-Kanan
+...EAA 
+...E.C 
+.PPE.CK
+..BFFC 
+D.BGG. 
+D.B... 
+
+Gerakan 52: D-Atas
+...EAA 
+...E.C 
+.PPE.CK
+D.BFFC 
+D.BGG. 
+..B... 
+
+Gerakan 53: D-Atas
+...EAA 
+...E.C 
+DPPE.CK
+D.BFFC 
+..BGG. 
+..B... 
+
+Gerakan 54: D-Atas
+...EAA 
+D..E.C 
+DPPE.CK
+..BFFC 
+..BGG. 
+..B... 
+
+Gerakan 55: D-Atas
+D..EAA 
+D..E.C 
+.PPE.CK
+..BFFC 
+..BGG. 
+..B... 
+
+Gerakan 56: P-Kiri
+D..EAA 
+D..E.C 
+PP.E.CK
+..BFFC 
+..BGG. 
+..B... 
+
+Gerakan 57: B-Atas
+D..EAA 
+D..E.C 
+PPBE.CK
+..BFFC 
+..BGG. 
+...... 
+
+Gerakan 58: B-Atas
+D..EAA 
+D.BE.C 
+PPBE.CK
+..BFFC 
+...GG. 
+...... 
+
+Gerakan 59: G-Kiri
+D..EAA 
+D.BE.C 
+PPBE.CK
+..BFFC 
+..GG.. 
+...... 
+
+Gerakan 60: B-Atas
+D.BEAA 
+D.BE.C 
+PPBE.CK
+...FFC 
+..GG.. 
+...... 
+
+Gerakan 61: F-Kiri
+D.BEAA 
+D.BE.C 
+PPBE.CK
+..FF.C 
+..GG.. 
+...... 
+
+Gerakan 62: G-Kiri
+D.BEAA 
+D.BE.C 
+PPBE.CK
+..FF.C 
+.GG... 
+...... 
+
+Gerakan 63: F-Kiri
+D.BEAA 
+D.BE.C 
+PPBE.CK
+.FF..C 
+.GG... 
+...... 
+
+Gerakan 64: F-Kiri
+D.BEAA 
+D.BE.C 
+PPBE.CK
+FF...C 
+.GG... 
+...... 
+
+Gerakan 65: B-Bawah
+D..EAA 
+D.BE.C 
+PPBE.CK
+FFB..C 
+.GG... 
+...... 
+
+Gerakan 66: G-Kiri
+D..EAA 
+D.BE.C 
+PPBE.CK
+FFB..C 
+GG.... 
+...... 
+
+Gerakan 67: B-Bawah
+D..EAA 
+D..E.C 
+PPBE.CK
+FFB..C 
+GGB... 
+...... 
+
+Gerakan 68: B-Bawah
+D..EAA 
+D..E.C 
+PP.E.CK
+FFB..C 
+GGB... 
+..B... 
+
+Gerakan 69: P-Kanan
+D..EAA 
+D..E.C 
+.PPE.CK
+FFB..C 
+GGB... 
+..B... 
+
+Gerakan 70: E-Bawah
+D...AA 
+D..E.C 
+.PPE.CK
+FFBE.C 
+GGB... 
+..B... 
+
+Gerakan 71: E-Bawah
+D...AA 
+D....C 
+.PPE.CK
+FFBE.C 
+GGBE.. 
+..B... 
+
+Gerakan 72: E-Bawah
+D...AA 
+D....C 
+.PP..CK
+FFBE.C 
+GGBE.. 
+..BE.. 
+
+Gerakan 73: P-Kanan
+D...AA 
+D....C 
+..PP.CK
+FFBE.C 
+GGBE.. 
+..BE.. 
+
+Gerakan 74: P-Kanan
+D...AA 
+D....C 
+...PPCK
+FFBE.C 
+GGBE.. 
+..BE.. 
+
+Gerakan 75: C-Bawah
+D...AA 
+D..... 
+...PPCK
+FFBE.C 
+GGBE.C 
+..BE.. 
+
+Gerakan 76: C-Bawah
+D...AA 
+D..... 
+...PP.K
+FFBE.C 
+GGBE.C 
+..BE.C 
+
+Gerakan 77: P-Kanan
+D...AA 
+D..... 
+....PPK
+FFBE.C 
+GGBE.C 
+..BE.C 
 
 
-Waktu yang dibutuhkan : 0 ms
-Banyak simpul yang dikunjungi : 8
+Waktu yang dibutuhkan : 135 ms
+Banyak simpul yang dikunjungi : 6551
